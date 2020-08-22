@@ -11,7 +11,26 @@
 
 \ProvidesPackage{color-palettes}[2020/08/22 v1.0 a color and palette control package based on xcolor] 
 
+%% Options
+%% -----------------------------------------------------------------------------
+
+\newif\ifcpl@setup@hyperref@
+\DeclareOption{hyperref}{\cpl@setup@hyperref@true}
+\DeclareOption{nohyperref}{\cpl@setup@hyperref@false}
+
+\newif\ifcpl@setup@enumitem@
+\DeclareOption{enumitem}{\cpl@setup@enumitem@true}
+\DeclareOption{noenumitem}{\cpl@setup@enumitem@false}
+
+\ProcessOptions\relax%
+
+%% Packages
+%% -----------------------------------------------------------------------------
+
 \RequirePackage{xcolor}
+
+%% Definitions
+%% -----------------------------------------------------------------------------
 
 \def\cpl@none{<None>}
 \edef\cpl@registered@palettes{\cpl@none}
@@ -36,10 +55,10 @@
         \xdef\cpl@registered@palettes{#1}%
     \else%
         \xdef\cpl@registered@palettes{\cpl@registered@palettes, #1}%
-    \fi
+    \fi%
 }%
 
-\def\cpl@parse@colordata#1#2,#3: #4(#5)\@nil{
+\def\cpl@parse@colordata#1#2,#3: #4(#5)\@nil{%
     \definecolor{palette#1}{#4}{#5}\colorlet{shade#1}{palette#1!29!white}%
     \expandafter\gdef\csname palette#1name\endcsname{#2}%
     \expandafter\gdef\csname palette#1adj\endcsname{#3}%
@@ -66,7 +85,7 @@
 
 \newcommand{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
 \typeout{Using palette '#1'}%
-\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\xdef\CurrentPalette{#1}\fi}
+\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\xdef\CurrentPalette{#1}\fi}
 
 
 \newcommand{\ShowcasePalette}[1]{%
@@ -80,6 +99,7 @@
 \def\cpl@showcase@palette#1{%
     \strut\emph{palette#1} & \colorbox{palette#1}{\vphantom{A}~~$\,$}$\,$\colorbox{shade#1}{\vphantom{A}~~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
 }
+
 \newcommand{\ShowcaseCurrentPalette}{%
 \bgroup%
     \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
@@ -91,9 +111,15 @@
         \cpl@showcase@palette{C} \\ %
         \cpl@showcase@palette{D} \\ %
     \end{tabular}%
-\egroup%
-}
+\egroup}
 
+\long\def\paletteA#1{\textcolor{paletteA}{#1}}
+\long\def\paletteB#1{\textcolor{paletteB}{#1}}
+\long\def\paletteC#1{\textcolor{paletteC}{#1}}
+\long\def\paletteD#1{\textcolor{paletteD}{#1}}
+
+%% The default palettes
+%% -----------------------------------------------------------------------------
 
 \DefinePalette{Water}
 {Dunkelblau,dunkelbläulich: RGB(19, 27, 71)}
@@ -167,4 +193,36 @@
 {Schwarz,schwarz: RGB(52, 52, 52)}
 {Weißgrau,weißgräulich: RGB(245, 245, 243)}
 
+%% Option-Execution
+%% -----------------------------------------------------------------------------
+
+\def\cpl@hooks{%
+    \cpl@hyper@hook%
+    \cpl@enum@hook%
+}
+\AtBeginDocument{\cpl@hooks}
+
+\ifcpl@setup@hyperref@
+\def\cpl@hyper@hook{%
+    \hypersetup{%
+        colorlinks=true,%
+        allcolors=paletteA,%
+        pdfborder=0 0 0%
+    }%
+}%
+\else
+\def\cpl@hyper@hook{}%
+\fi
+
+\ifcpl@setup@enumitem@
+\RequirePackage{amssymb}
+\def\cpl@enum@hook{%
+\setlist[itemize,1]{label={\textcolor{shadeA}{$\blacktriangleright$}}}%
+\setlist[itemize,2]{label={\textcolor{shadeA}{\smaller[2]\raisebox{2pt}{$\blacksquare$}}}}%
+\setlist[itemize,3]{label={\textcolor{shadeA}{\raisebox{1.45pt}{\textendash}}}}%
+\setlist[itemize,4]{label={\textcolor{shadeA}{\smaller[1]\raisebox{0.25pt}{*}}}}%
+}
+\else
+\def\cpl@enum@hook{}%
+\fi
 \endinput

@@ -5,28 +5,27 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage{microtype}
-\usepackage[hidelinks]{hyperref}
+\usepackage{microtype,hyperref,array,enumitem}
 
 \usepackage[main=ngerman,english]{babel}
 
-\usepackage{color-palettes}
+\usepackage[hyperref,enumitem]{color-palettes}
 
 \UsePalette{IceLake}
 
 \def\say#1{\glqq{#1}\grqq{}}
 
-\def\cmd#1{\texttt{\color{paletteA}\textbackslash#1}}
+\def\cmd#1{\texttt{\paletteA{\textbackslash#1}}}
 \def\cmdlink#1{\phantomsection\label{cmd:#1}\cmd{#1}}
 \def\cmdref#1{\hyperref[cmd:#1]{\cmd{#1}}}
 
-\def\arg#1{\textit{\color{paletteB}#1}}
+\def\arg#1{\textit{\paletteB{#1}}}
 \def\manArg#1{\texttt{\{\,\arg{#1}\,\}}}
 \def\optArg#1{\texttt{[\,\arg{#1}\,]}}
 
-\def\secref#1{\ref{#1} \nameref{#1}}
+\def\secref#1{\hyperref[#1]{\ref*{#1} \nameref*{#1}}}
 
-\long\def\imp#1{\emph{\color{paletteD}#1}}
+\long\def\imp#1{\emph{\paletteD{#1}}}
 
 \newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
 
@@ -91,10 +90,41 @@ Die Farben stehen anschließend unter den Bezeichnern \texttt{paletteA}, \texttt
     Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl expandiert zum adjektiv der jeweiligen Farbe. So zum Beispiel (verwendet wird \CurrentPalette) wird \cmd{paletteAadj} zu \say{\paletteAadj}.
 \end{command}
 
+\begin{command}[v1.1]{palette*}{\manArg{text}}
+    Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl ist eine Kurzform für \texttt{\cmdref{textcolor}\{palette*\}\manArg{Text}} So ergibt \texttt{\cmd{paletteA}\{Hallo Welt\}} folgendes Ergebnis: \paletteA{Hallo Welt}.
+\end{command}
+
+
+\section{Paketoptionen}
+\label{sec:packetoptions}Das Paket kann (\texttt{v1.1}) mit den Optionen \texttt{hyperref}/\texttt{nohyperref} geladen werden. Die
+Angabe von \texttt{hyperref} fordert, dass das gleichnamige Paket geladen ist und
+setzt die Linkfarben entsprechend der Palette neu. Beispiel:
+{\UsePalette{SourCandy}\hyperref[sec:packetoptions]{Link in \CurrentPalette}}, \hyperref[sec:packetoptions]{Link in \CurrentPalette} und {\UsePalette{BloodyGrass}\hyperref[sec:packetoptions]{Link in \CurrentPalette}}.
+
+Ebenso gibt es die Paketoptionen (\texttt{v1.1}) \texttt{enumitem}/\texttt{noenumitem} die bei geladenem gleichnamigen Paket die Gestalt\footnote{Nach aktuellem Stand wird automatisch \texttt{amssymb} geladen.} von \emph{itemize} verändern:
+\begin{center}
+    \begin{tabular}{*3{m{0.3\linewidth}}}
+        \begin{itemize}
+            \item Itemize in
+            \item Palette \CurrentPalette
+            \item \ldots
+        \end{itemize} & {\UsePalette{SourCandy}\begin{itemize}
+            \item Itemize in
+            \item Palette \CurrentPalette
+            \item \ldots
+        \end{itemize}} & {\UsePalette{BloodyGrass}\begin{itemize}
+            \item Itemize in
+            \item Palette \CurrentPalette
+            \item \ldots
+        \end{itemize}}
+    \end{tabular}
+\end{center}
+
 \section{Versionierung}
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
-
+\subsection{Version 1.1}
+Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt.
 
 \clearpage
 \section{Vordefinierte Paletten}
@@ -107,7 +137,7 @@ Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{C
         \ShowcasePalette{Moonshine} & \ShowcasePalette{BloodyGrass} \\[6em]
         \ShowcasePalette{SourCandy} & \ShowcasePalette{PurpleSand} \\[6em]
         \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
-        \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint} \\[6em]
+        \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint}
     \end{tabular}
 \end{center}
 \egroup
