@@ -1,0 +1,170 @@
+%% color-palettes.sty
+%%
+%% --------------------------------------------------------------------------
+%%
+%% Autor: Florian Sihler, 22.08.2020
+%%
+%% This package is a standalone version from the fancy-dir
+%% environment integrated into lilly. It contains some optimizations.
+
+% All internal commands are prefixed by 'cpl'
+
+\ProvidesPackage{color-palettes}[2020/08/22 v1.0 a color and palette control package based on xcolor] 
+
+\RequirePackage{xcolor}
+
+\def\cpl@none{<None>}
+\edef\cpl@registered@palettes{\cpl@none}
+
+% further versions: setup hyperref support and other packages using this one
+% furhtermore: setup itemize etc. with enumitem
+% TODO: Tikz support!
+
+% #1 name of palette
+% #2-#5 colors in the format 'name,adjective: format(CODE)'
+%       example: "Blau,bläulich: RGB(0,0,255)"
+\newcommand{\DefinePalette}[5]{%
+    \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
+    \typeout{Defining Palette '#1'}%
+    \expandafter\gdef\csname cpl@palette@#1\endcsname{%
+        \expandafter\cpl@parse@colordata{A}#2\@nil%
+        \expandafter\cpl@parse@colordata{B}#3\@nil%
+        \expandafter\cpl@parse@colordata{C}#4\@nil%
+        \expandafter\cpl@parse@colordata{D}#5\@nil%
+    }%
+    \ifx\cpl@registered@palettes\cpl@none%
+        \xdef\cpl@registered@palettes{#1}%
+    \else%
+        \xdef\cpl@registered@palettes{\cpl@registered@palettes, #1}%
+    \fi
+}%
+
+\def\cpl@parse@colordata#1#2,#3: #4(#5)\@nil{
+    \definecolor{palette#1}{#4}{#5}\colorlet{shade#1}{palette#1!29!white}%
+    \expandafter\gdef\csname palette#1name\endcsname{#2}%
+    \expandafter\gdef\csname palette#1adj\endcsname{#3}%
+}
+
+\def\cpl@err@noname@palette{\PackageError{color-palettes}{A palette must have a name}
+{An empty name for a palette is reserved and not to be used}}
+
+\def\cpl@err@unkown@palette#1{\PackageError{color-palettes}{Unknown palette '#1'}
+{There is no palette registered with the name '#1'\MessageBreak
+ Register a palette with: \protect\DefinePalette{name}{...}\MessageBreak
+ Registered Palettes: \cpl@registered@palettes}}
+
+\def\CurrentPalette{}
+
+\def\cpl@undef#1{%
+    \expandafter\gdef\csname #1name\endcsname\@nil%
+    \expandafter\gdef\csname #1adj\endcsname\@nil%
+}
+% clears all registers
+\def\cpl@clear@palette{%
+    \cpl@undef{paletteA}\cpl@undef{paletteB}\cpl@undef{paletteC}\cpl@undef{paletteD}%
+}
+
+\newcommand{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
+\typeout{Using palette '#1'}%
+\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\xdef\CurrentPalette{#1}\fi}
+
+
+\newcommand{\ShowcasePalette}[1]{%
+\bgroup%
+\edef\@cpl@tmp{\CurrentPalette}%
+\UsePalette{#1}\ShowcaseCurrentPalette%
+\UsePalette{\@cpl@tmp}% in case of none
+\egroup
+}
+
+\def\cpl@showcase@palette#1{%
+    \strut\emph{palette#1} & \colorbox{palette#1}{\vphantom{A}~~$\,$}$\,$\colorbox{shade#1}{\vphantom{A}~~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
+}
+\newcommand{\ShowcaseCurrentPalette}{%
+\bgroup%
+    \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
+        \multicolumn{4}{c}{\textbf{Palette: \strut\textit{\CurrentPalette}}}\\
+        ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~ & Adjective~~~~~~~~~~ \\
+        \hline
+        \cpl@showcase@palette{A} \\ %
+        \cpl@showcase@palette{B} \\ %
+        \cpl@showcase@palette{C} \\ %
+        \cpl@showcase@palette{D} \\ %
+    \end{tabular}%
+\egroup%
+}
+
+
+\DefinePalette{Water}
+{Dunkelblau,dunkelbläulich: RGB(19, 27, 71)}
+{Blau,bläulich: RGB(36, 63, 120)}
+{Hellblau,hellbläulich: RGB(43, 106, 131)}
+{Rot,rötlich: RGB(145,47,64)}
+
+\DefinePalette{GraySun}
+{Dunkelgrau,dunkelgräulich: RGB(32, 43, 65)}
+{Grau,gräulich: RGB(81, 91, 116)}
+{Hellgrau,hellgräulich: RGB(157, 171, 197)}
+{Gelb,gelblich: RGB(217, 226, 59)}
+
+\DefinePalette{ClayGrass}
+{Dunkelbraun,dunkelbräunlich: RGB(90, 51, 46)}
+{Hellbraun,hellbräunlich: RGB(142, 94, 90)}
+{Rosa,rosafarben: RGB(218, 179, 172)}
+{Grün,grünlich: RGB(36, 73, 22)}
+
+\DefinePalette{PurpleCoin}
+{Dunkellila,dunkellilafarben: RGB(64, 47, 83)}
+{Lila,lilafarben: RGB(113, 90, 134)}
+{Helllila,helllilafarben: RGB(186, 169, 205)}
+{Bronze,bronzefarben: RGB(188, 118, 66)}
+
+\DefinePalette{Moonshine}
+{Dunkelgrün,dunkelgrünlich: RGB(32, 63, 57)}
+{Blaugrau,blaugräulich: RGB(65, 101, 97)}
+{Hellblau,hellbläulich: RGB(163, 195, 192)}
+{Gold,goldfarben: RGB(218, 188, 78)}
+
+\DefinePalette{BloodyGrass}
+{Dunkelgrün,dunkelgrünlich: RGB(27, 58, 24)}
+{Grün,grünlich: RGB(65, 112, 70)}
+{Hellgrün,hellgrünlich: RGB(142, 190, 140)}
+{Rot,rötlich: RGB(128, 46, 48)}
+
+\DefinePalette{SourCandy}
+{Dunkelrot,dunkelrötlich: RGB(110, 47, 58)}
+{Rot,rötlich: RGB(171, 87, 102)}
+{Hellrot,hellrötlich: RGB(226, 139, 155)}
+{Grün,grünlich: RGB(162, 226, 139)}
+
+\DefinePalette{PurpleSand}
+{Dunkellila,dunkellilafarben: RGB(52, 31, 74)}
+{Lila,lilafarben: RGB(83, 62, 105)}
+{Helllila,helllilafarben: RGB(156, 141, 172)}
+{Gold,goldfarben: RGB(198, 162, 66)}
+
+\DefinePalette{IceLake}
+{Dunkelblau,dunkelbläulich: RGB(49, 68, 95)}
+{Blau,bläulich: RGB(82,115,143)}
+{Hellblau,hellbläulich: RGB(113, 151, 172)}
+{Rot,rötlich: RGB(137,64,75)}
+
+\DefinePalette{Crimson}
+{Dunkelrot,dunkelrot: RGB(132, 0, 41)}
+{Rot,rötlich: RGB(169, 24, 52)}
+{Hellrot,hellrötlich: RGB(246, 77, 82)}
+{Blau,bläulich: RGB(24, 168, 139)}
+
+\DefinePalette{Legacy}
+{Lila,lila: RGB(104, 34, 139)}
+{Orange,orange: RGB(255, 140, 0)}
+{Blau,bläulich: RGB(0, 74, 148)}
+{Grün,grünlich: RGB(141, 182, 0)}
+
+\DefinePalette{LegacyPrint}
+{Grau,gräulich: RGB(151, 152, 151)}
+{Hellgrau,hellgräulich: RGB(224, 224, 224)}
+{Schwarz,schwarz: RGB(52, 52, 52)}
+{Weißgrau,weißgräulich: RGB(245, 245, 243)}
+
+\endinput

@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage[a4paper,total={18cm,25.5cm}]{geometry}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[main=ngerman,english]{babel}
+
+\usepackage{color-palettes}
+
+\UsePalette{IceLake}
+
+\def\say#1{\glqq{#1}\grqq{}}
+
+\def\cmd#1{\texttt{\color{paletteA}\textbackslash#1}}
+\def\cmdlink#1{\phantomsection\label{cmd:#1}\cmd{#1}}
+\def\cmdref#1{\hyperref[cmd:#1]{\cmd{#1}}}
+
+\def\arg#1{\textit{\color{paletteB}#1}}
+\def\manArg#1{\texttt{\{\,\arg{#1}\,\}}}
+\def\optArg#1{\texttt{[\,\arg{#1}\,]}}
+
+\def\secref#1{\ref{#1} \nameref{#1}}
+
+\long\def\imp#1{\emph{\color{paletteD}#1}}
+
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+
+
+\title{color-palettes.sty}
+\author{Florian Sihler}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Dieses Paket dient der Handhabung von Farbpaletten. Es liefert Makros zur einfachen Definition vierfarbiger Paletten, die sich an die jeweilige Umgebung anpassen und auch
+    gewechselt werden können. 
+\end{abstract}
+% TODO: Zwilling: tikz-palettes
+
+\tableofcontents
+
+\section{Nutzermakros}
+
+\begin{command}{DefinePalette}{\manArg{Name}\manArg{A}\manArg{B}\manArg{C}\manArg{D}}
+    Definiert die Palette \arg{Name} ungeachtet ob sie bereits existiert (sollte sie bereits existieren, wird sie überschrieben). Die folgenden 4 Argumente \arg{A} bis \arg{D} müssen im folgenden Format präsentiert werden und definieren die jeweilige Farbe:
+\begin{verbatim}
+<noun>,<adjective>: <format>(<specification>)
+\end{verbatim}
+Exemplarisch sei hier die Definition von \emph{IceLake} präsentiert:
+\begin{verbatim}
+\DefinePalette{IceLake}
+    {Dunkelblau,dunkelbläulich: RGB(049, 068, 095)}
+    {Blau,bläulich:             RGB(082, 115, 143)}
+    {Hellblau,hellbläulich:     RGB(113, 151, 172)}
+    {Rot,rötlich:               RGB(137, 064, 075)}
+\end{verbatim}
+\imp{Der Name einer Palette darf nicht leer sein!}
+
+Die Farben stehen anschließend unter den Bezeichnern \texttt{paletteA}, \texttt{paletteB}, \texttt{paletteC} und \texttt{paletteD} zur Verfügung. Weiter wird für jede Farbe \texttt{shadeA}, \texttt{shadeB}, \texttt{shadeC} und \texttt{shadeD} als Farbe erzeugt. Es sind die helleren Varianten in \secref{sec:predefined-palletes}.
+\end{command}
+
+\begin{command}{CurrentPalette}{}
+    Dieser Befehl enthält den Bezeichner der aktuellen Palette. Er sollte nur \say{gelesen} und nicht geschrieben werden. Da in den meisten Dokumenten nur eine Palette eingesetzt wird, sollte seine Bedeutung (außerhalb des Pakets) eher gering sein.
+\end{command}
+
+\begin{command}{UsePalette}{\manArg{Name}}
+    Setzt die aktuelle Palette auf \arg{Name}, wirft einen Fehler wenn die Palette nicht existiert. Ein leerer Bezeichner sorgt für eine Löschung der aktuellen Paletten-Befehle.
+\end{command}
+
+\begin{command}{ShowcasePalette}{\manArg{Name}}
+    Ändert für den Befehl die Palette mittels \cmdref{UsePalette} auf \arg{Name} und wechselt dann zur vorherigen Palette zurück. Zur Anzeige wird \cmdref{ShowcaseCurrentPalette} verwendet.
+\end{command}
+
+\begin{command}{ShowcaseCurrentPalette}{}
+    Zeigt die aktuelle Palette in Form einer Tabelle an (die Gestalt kann sich über die Versionen durchaus ändern). Die Anzeige wird auch in \secref{sec:predefined-palletes} verwendet.
+\end{command}
+
+\begin{command}{palette*name}{}
+    Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl expandiert zum Namen der jeweiligen Farbe. So zum Beispiel (verwendet wird \CurrentPalette) wird \cmd{paletteAname} zu \say{\paletteAname}.
+\end{command}
+
+\begin{command}{palette*adj}{}
+    Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl expandiert zum adjektiv der jeweiligen Farbe. So zum Beispiel (verwendet wird \CurrentPalette) wird \cmd{paletteAadj} zu \say{\paletteAadj}.
+\end{command}
+
+\section{Versionierung}
+\subsection{Version 1.0}
+Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
+
+
+\clearpage
+\section{Vordefinierte Paletten}
+\label{sec:predefined-palletes}\hbox{}\vfill
+\bgroup
+\footnotesize\begin{center}
+    \begin{tabular}{cc}
+        \ShowcasePalette{Water} & \ShowcasePalette{GraySun} \\[6em]
+        \ShowcasePalette{ClayGrass} & \ShowcasePalette{PurpleCoin} \\[6em]
+        \ShowcasePalette{Moonshine} & \ShowcasePalette{BloodyGrass} \\[6em]
+        \ShowcasePalette{SourCandy} & \ShowcasePalette{PurpleSand} \\[6em]
+        \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
+        \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint} \\[6em]
+    \end{tabular}
+\end{center}
+\egroup
+\vfill\hbox{}
+
+\end{document}
