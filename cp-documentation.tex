@@ -94,6 +94,10 @@ Die Farben stehen anschließend unter den Bezeichnern \texttt{paletteA}, \texttt
     Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl ist eine Kurzform für \texttt{\cmdref{textcolor}\{palette*\}\manArg{Text}} So ergibt \texttt{\cmd{paletteA}\{Hallo Welt\}} folgendes Ergebnis: \paletteA{Hallo Welt}.
 \end{command}
 
+\begin{command}[v1.1]{SetShadeContrast}{\manArg{num}}
+    Erlaubt es den Kontrast der \texttt{shade*}-Farben zu setzen. Der Wert \arg{num} muss zwischen 0 und 100 liegen, der Standardwert ist \makeatletter\cpl@shade@contrast\makeatother.
+\end{command}
+
 
 \section{Paketoptionen}
 \label{sec:packetoptions}Das Paket kann (\texttt{v1.1}) mit den Optionen \texttt{hyperref}/\texttt{nohyperref} geladen werden. Die
