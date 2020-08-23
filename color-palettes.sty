@@ -84,9 +84,10 @@
     \cpl@undef{paletteA}\cpl@undef{paletteB}\cpl@undef{paletteC}\cpl@undef{paletteD}%
 }
 
+\newif\ifcpl@first@palette@usage@
 \newcommand*{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
 \typeout{Using palette '#1'}%
-\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\xdef\CurrentPalette{#1}\fi}
+\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
 \newcommand*{\WithPalette}[2]{%
 \bgroup%
@@ -223,10 +224,11 @@
     }%
 }
 \def\cpl@hyper@hook{%
-    \hypersetup{%
-        colorlinks=true,%
-        allcolors=paletteA%
-    }%
+\ifcpl@first@palette@usage@\hypersetup{allcolors=paletteA}%
+\else\hypersetup{%
+    colorlinks=true,%
+    allcolors=paletteA%
+}\fi%
 }%
 \else
 \def\cpl@hyper@hook{}%
