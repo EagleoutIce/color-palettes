@@ -219,14 +219,17 @@
     \cpl@hyper@hook%
     \cpl@enum@hook%
 }
-\AtBeginDocument{\cpl@hooks}
 
 \ifcpl@setup@hyperref@
+\AtBeginDocument{% initial:
+    \hypersetup{%
+        pdfborder=0 0 0%
+    }%
+}
 \def\cpl@hyper@hook{%
     \hypersetup{%
         colorlinks=true,%
-        allcolors=paletteA,%
-        pdfborder=0 0 0%
+        allcolors=paletteA%
     }%
 }%
 \else
@@ -244,4 +247,7 @@
 \else
 \def\cpl@enum@hook{}%
 \fi
+
+\AtBeginDocument{\cpl@hooks}
+
 \endinput
