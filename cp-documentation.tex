@@ -11,6 +11,10 @@
 
 \usepackage[hyperref,enumitem]{color-palettes}
 
+\usepackage{imakeidx}
+\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
+
+
 \UsePalette{IceLake}
 
 \def\say#1{\glqq{#1}\grqq{}}
@@ -27,7 +31,7 @@
 
 \long\def\imp#1{\emph{\paletteD{#1}}}
 
-\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2@\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
 
 
 \title{color-palettes.sty}
@@ -147,5 +151,7 @@ Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{en
 \end{center}
 \egroup
 \vfill\hbox{}
-
+\clearpage\appendix
+\addcontentsline{toc}{section}{\indexname}
+\printindex
 \end{document}
