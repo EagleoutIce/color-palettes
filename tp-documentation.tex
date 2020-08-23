@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[a4paper,total={18cm,25.5cm}]{geometry}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{microtype,hyperref,array,enumitem,tikz}
+
+\usepackage[main=ngerman,english]{babel}
+
+\usepackage[hyperref,enumitem]{tikz-palettes}
+\UsePalette{Crimson}
+\UseTikzPalette{CleanPlate}
+
+\usepackage{imakeidx}
+\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
+
+
+\def\say#1{\glqq{#1}\grqq{}}
+
+\def\cmd#1{\texttt{\paletteA{\textbackslash#1}}}
+\def\cmdlink#1{\phantomsection\label{cmd:#1}\cmd{#1}}
+\def\cmdref#1{\hyperref[cmd:#1]{\cmd{#1}}}
+
+\def\arg#1{\textit{\paletteB{#1}}}
+\def\manArg#1{\texttt{\{\,\arg{#1}\,\}}}
+\def\optArg#1{\texttt{[\,\arg{#1}\,]}}
+
+\def\secref#1{\hyperref[#1]{\ref*{#1} \nameref*{#1}}}
+
+\long\def\imp#1{\emph{\paletteD{#1}}}
+
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2@\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+
+
+\title{tikz-palettes.sty}
+\author{Florian Sihler}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Dieses Paket dient der Handhabung von Stilpaletten für Ti\textit{k}Z. Es verwendet das ebenfalls mitgelieferte \paletteA{color-palettes}-Paket zur Realisierung der Definitionen. \imp{Das Paket \texttt{tikz}/\texttt{pgf}\footnote{\url{https://www.ctan.org/pkg/pgf}} muss zuvor geladen werden.}
+\end{abstract}
+% TODO: Zwilling: tikz-palettes
+
+\tableofcontents
+
+\section{Nutzermakros}
+
+\begin{command}{DefineTikzPalette}{\manArg{Name}\manArg{A}\manArg{B}\manArg{C}\manArg{D}\manArg{writ}}
+    Definiert die Palette \arg{Name} ungeachtet ob sie bereits existiert (sollte sie bereits existieren, wird sie überschrieben). Die folgenden vier Argumente \arg{A} bis \arg{D} müssen im folgenden Format präsentiert werden und definieren die jeweilige Farbe:
+\begin{verbatim}
+<name>: <style>
+\end{verbatim}
+Das Argument \arg{writ}, welches im selben Schema präsentiert werden muss, kann für das Setzen von Texten definiert werden. Hier als Beispiel die Definition von \emph{CleanPlate}:
+\begin{verbatim}
+\DefineTikzPalette{CleanPlate}
+    {\paletteAname: paletteA,fill=shadeA}
+    {\paletteBname: paletteB,fill=shadeB}
+    {\paletteCname: paletteC,fill=shadeC}
+    {\paletteDname: paletteD,fill=shadeD}
+    {Schwarz: text=black}
+\end{verbatim}
+\imp{Der Name einer Palette darf nicht leer sein!}, die Paletten sind unabhängig von denen, welche in \paletteA{color-palettes} definiert werden.
+Das Paket definiert passende Paletten, welche in \secref{sec:predefined-palletes} präsentiert werden.
+
+Die Stile stehen anschließend unter den Bezeichnern \texttt{tikzA}, \texttt{tikzB}, \texttt{tikzC} und \texttt{tikzD} zur Verfügung.
+\end{command}
+
+\begin{command}{CurrentTikzPalette}{}
+    Dieser Befehl enthält den Bezeichner der aktuellen Palette. Er sollte nur \say{gelesen} und nicht geschrieben werden. Da in den meisten Dokumenten nur eine Palette eingesetzt wird, sollte seine Bedeutung (außerhalb des Pakets) eher gering sein.
+\end{command}
+
+\begin{command}{UseTikzPalette}{\manArg{Name}}
+    Setzt die aktuelle Palette auf \arg{Name}, wirft einen Fehler wenn die Palette nicht existiert. Ein leerer Bezeichner sorgt für eine Löschung der aktuellen Paletten-Befehle. Die Tikz-Paletten unterscheiden sich von denen aus \paletteA{color-palettes}.
+\end{command}
+
+\begin{command}{ShowcaseTikzPalette}{\manArg{Name}}
+    Ändert für den Befehl die Palette mittels \cmdref{UseTikzPalette} auf \arg{Name} und wechselt dann zur vorherigen Palette zurück. Zur Anzeige wird \cmdref{ShowcaseCurrentTikzPalette} verwendet.
+\end{command}
+
+\begin{command}{ShowcaseCurrentTikzPalette}{}
+    Zeigt die aktuelle Palette in Form einer Tabelle an (die Gestalt kann sich über die Versionen durchaus ändern). Die Anzeige wird auch in \secref{sec:predefined-palletes} verwendet.
+\end{command}
+
+\begin{command}{tikz*name}{}
+    Das Sternchen steht hierbei für die Bezeichner \emph{A}, \emph{B}, \emph{C} beziehungsweise \emph{D}. Der Befehl expandiert zum Namen der jeweiligen Farbe. So zum Beispiel (verwendet wird \emph{\CurrentTikzPalette}) wird \cmd{tikzAname} zu \say{\tikzAname}.
+\end{command}
+
+\begin{command}{writname}{}
+    Analog zu \cmdref{tikz*name}, allerdings für die Schriftdefinition. Mit der Palette \emph{\CurrentTikzPalette} ergibt sich: \writname.
+\end{command}
+
+\begin{command}{AllTikzPalettes}{}
+    Liefert eine Liste alle definierten Paletten: \say{\AllTikzPalettes}.
+\end{command}
+
+
+\section{Paketoptionen}
+\label{sec:packetoptions}Das Paket selbst bietet keine besonderen Optionen, kann aber die Optionen für \paletteA{color-palettes} akzeptieren, die dann entsprechend weitergereicht werden.
+\makeatletter
+\section{Versionierung}
+\subsection{Version 1.0}
+Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefineTikzPalette}, \cmdref{CurrentTikzPalette}, \cmdref{UseTikzPalette}, \cmdref{ShowcaseTikzPalette} und \cmdref{ShowcaseCurrentTikzPalette}.
+\clearpage
+\section{Vordefinierte Paletten}
+\label{sec:predefined-palletes}\hbox{}\vfill
+\bgroup
+\footnotesize\begin{center}
+    \begin{tabular}{cc}
+        \ShowcaseTikzPalette{CleanPlate} & \ShowcaseTikzPalette{DeepInk} \\[8em] \ShowcaseTikzPalette{CleanStripes} & \ShowcaseTikzPalette{Blueprint} \\[8em]
+        \ShowcaseTikzPalette{MajorMark} & \ShowcaseTikzPalette{BlueprintStripes} \\[8em]
+    \end{tabular}
+\end{center}
+\egroup
+\vfill\hbox{}
+\clearpage\appendix
+\addcontentsline{toc}{section}{\indexname}
+\printindex
+\end{document}

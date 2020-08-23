@@ -1,0 +1,165 @@
+%% tikz-palettes.sty
+%%
+%% --------------------------------------------------------------------------
+%%
+%% Autor: Florian Sihler, 23.08.2020
+%%
+%% This package uses color-palettes to offer palettes to be used in tikz
+
+% All internal commands are prefixed by 'tpl'
+
+\ProvidesPackage{tikz-palettes}[2020/08/23 v1.0 a style and palette control package based on color-palettes for tikz] 
+
+%% Options
+%% -----------------------------------------------------------------------------
+
+\newif\iftpl@setup@hyperref@
+\DeclareOption{hyperref}{\tpl@setup@hyperref@true}
+\DeclareOption{nohyperref}{\tpl@setup@hyperref@false}
+
+\newif\iftpl@setup@enumitem@
+\DeclareOption{enumitem}{\tpl@setup@enumitem@true}
+\DeclareOption{noenumitem}{\tpl@setup@enumitem@false}
+
+\ProcessOptions*%
+
+%% Packages
+%% -----------------------------------------------------------------------------
+\iftpl@setup@hyperref@\PassOptionsToPackage{hyperref}{color-palettes}\else%
+\PassOptionsToPackage{nohyperref}{color-palettes}\fi
+\iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else%
+\PassOptionsToPackage{noenumitem}{color-palettes}\fi
+
+\RequirePackage{color-palettes}
+
+\usetikzlibrary{patterns}
+
+%% Definitions
+%% -----------------------------------------------------------------------------
+
+\def\tpl@none{<None>}
+\edef\tpl@registered@palettes{\tpl@none}
+
+\def\AllTikzPalettes{\tpl@registered@palettes}
+
+\def\tpl@err@noname@palette{\PackageError{tikz-palettes}{A tikz palette must have a name}
+{An empty name for a tikz palette is reserved and not to be used}}
+
+% #1 name of palette
+% #2-#5 tikz-style definitions in the form 'name: style'
+%       example: "blau gestrichelt: postaction={north west lines},fill=paletteA"
+% #6 text-style 'writ'
+\newcommand*{\DefineTikzPalette}[6]{%
+    \edef\@tpl@tmp{#1}\expandafter\ifx\expandafter\\\@tpl@tmp\\\tpl@err@noname@palette\fi%
+    \typeout{Defining tikz palette '#1'}%
+    \expandafter\gdef\csname tpl@palette@#1\endcsname{%
+        \expandafter\tpl@parse@styledata{tikzA}#2\@nil%
+        \expandafter\tpl@parse@styledata{tikzB}#3\@nil%
+        \expandafter\tpl@parse@styledata{tikzC}#4\@nil%
+        \expandafter\tpl@parse@styledata{tikzD}#5\@nil%
+        \expandafter\tpl@parse@styledata{writ}#6\@nil%
+    }%
+    \ifx\tpl@registered@palettes\tpl@none%
+        \xdef\tpl@registered@palettes{#1}%
+    \else%
+        \xdef\tpl@registered@palettes{\tpl@registered@palettes, #1}%
+    \fi%
+}
+
+\def\tpl@parse@styledata#1#2: #3\@nil{%
+    \tikzset{#1/.style={#3}}%
+    \typeout{Def: '#1name'}
+    \expandafter\gdef\csname#1name\endcsname{#2}%
+}
+
+\def\CurrentTikzPalette{}
+
+\def\tpl@undef#1{%
+    \expandafter\gdef\csname#1name\endcsname\@nil%
+}
+% clears all registers
+\def\tpl@clear@palette{%
+    \tpl@undef{tikzA}\tpl@undef{tikzB}\tpl@undef{tikzC}\tpl@undef{tikzD}%
+}
+
+\newcommand*{\UseTikzPalette}[1]{\edef\tpl@plt{#1}\expandafter\ifx\expandafter\\\tpl@plt\\\relax \tpl@clear@palette\gdef\CurrentTikzPalette{}\else%
+\typeout{Using tikz palette '#1'}%
+\@ifundefined{tpl@palette@#1}{\tpl@err@unkown@palette{#1}}{\@nameuse{tpl@palette@#1}}\xdef\CurrentTikzPalette{#1}\fi}
+
+\newcommand*{\WithTikzPalette}[2]{%
+\bgroup%
+\edef\@tpl@tmp{\CurrentTikzPalette}%
+\UseTikzPalette{#1}#2%
+\UseTikzPalette{\@tpl@tmp}% in case of none
+\egroup}
+
+\newcommand*{\ShowcaseTikzPalette}[1]{%
+    \WithTikzPalette{#1}{\ShowcaseCurrentTikzPalette}%
+}
+
+\def\tpl@showcase@palette#1{%
+    \strut\emph{tikz#1} & \tikz[baseline=1ex]\draw[tikz#1] (0,0) rectangle ++(1.75,0.45); & \@nameuse{tikz#1name}%
+}
+\def\tpl@showcase@text{%
+    \strut\emph{writ} & \tikz[baseline=2ex]{\draw[tikzA] (0,0) rectangle ++(1.75,0.6);\node[writ] at (0.875,0.3) {Example};} & \@nameuse{writname}%
+}
+
+\newcommand*{\ShowcaseCurrentTikzPalette}{%
+\bgroup%
+    \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccl}%
+        \multicolumn{3}{c}{\textbf{Palette: \strut\textit{\CurrentTikzPalette}}}\\
+        ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~ \\
+        \hline
+        \tpl@showcase@palette{A} \\ %
+        \tpl@showcase@palette{B} \\ %
+        \tpl@showcase@palette{C} \\ %
+        \tpl@showcase@palette{D} \\[0.033em] %
+        \tpl@showcase@text{} \\ %
+    \end{tabular}%
+\egroup}
+
+%% The default palettes
+%% -----------------------------------------------------------------------------
+
+\DefineTikzPalette{CleanPlate}
+{\paletteAname: paletteA,fill=shadeA}
+{\paletteBname: paletteB,fill=shadeB}
+{\paletteCname: paletteC,fill=shadeC}
+{\paletteDname: paletteD,fill=shadeD}
+{Schwarz: text=black}
+
+\DefineTikzPalette{DeepInk}
+{\paletteAname: paletteA,fill=paletteA}
+{\paletteBname: paletteB,fill=paletteB}
+{\paletteCname: paletteC,fill=paletteC}
+{\paletteDname: paletteD,fill=paletteD}
+{Weiß: text=white!99!black}
+
+\DefineTikzPalette{CleanStripes}
+{\paletteAname: paletteA,fill=shadeA,postaction={pattern={north west lines},pattern color=paletteA}}
+{\paletteBname: paletteB,fill=shadeB}
+{\paletteCname: paletteC,fill=shadeC}
+{\paletteDname: paletteD,fill=shadeD,postaction={pattern={dots},pattern color=paletteD}}
+{Schwarz: text=black,fill=white,fill opacity=0.9}
+
+\DefineTikzPalette{Blueprint}
+{\paletteAname: paletteA}
+{\paletteBname: paletteB}
+{\paletteCname: paletteC}
+{\paletteDname: paletteD}
+{Schwarz: text=black}
+
+\DefineTikzPalette{MajorMark}
+{\paletteAname: postaction={pattern={north west lines},pattern color=paletteA}}
+{\paletteBname: }
+{\paletteCname: }
+{\paletteDname: }
+{Schwarz: text=black,fill=white}
+
+\DefineTikzPalette{BlueprintStripes}
+{\paletteAname: paletteA,postaction={pattern={north west lines},pattern color=paletteA}}
+{\paletteBname: paletteB}
+{\paletteCname: paletteC}
+{\paletteDname: paletteD,postaction={pattern={dots},pattern color=paletteD}}
+{Schwarz: text=black,fill=white}
+\endinput
