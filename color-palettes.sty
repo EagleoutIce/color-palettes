@@ -9,7 +9,7 @@
 
 % All internal commands are prefixed by 'cpl'
 
-\ProvidesPackage{color-palettes}[2020/08/22 v1.0 a color and palette control package based on xcolor] 
+\ProvidesPackage{color-palettes}[2020/08/22 v1.1 a color and palette control package based on xcolor] 
 
 %% Options
 %% -----------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 \DeclareOption{enumitem}{\cpl@setup@enumitem@true}
 \DeclareOption{noenumitem}{\cpl@setup@enumitem@false}
 
-\ProcessOptions\relax%
+\ProcessOptions*%
 
 %% Packages
 %% -----------------------------------------------------------------------------
@@ -34,10 +34,6 @@
 
 \def\cpl@none{<None>}
 \edef\cpl@registered@palettes{\cpl@none}
-
-% further versions: setup hyperref support and other packages using this one
-% furhtermore: setup itemize etc. with enumitem
-% TODO: Tikz support! Allow flags like 'printmark' which will result in added patterns in print but not in online mode
 
 % #1 name of palette
 % #2-#5 colors in the format 'name,adjective: format(CODE)'
