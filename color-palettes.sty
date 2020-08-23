@@ -4,8 +4,8 @@
 %%
 %% Autor: Florian Sihler, 22.08.2020
 %%
-%% This package is a standalone version from the fancy-dir
-%% environment integrated into lilly. It contains some optimizations.
+%% This package allows to use palettes and handle them in differnt ways.
+%%
 
 % All internal commands are prefixed by 'cpl'
 
@@ -42,7 +42,7 @@
 % #1 name of palette
 % #2-#5 colors in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
-\newcommand{\DefinePalette}[5]{%
+\newcommand*{\DefinePalette}[5]{%
     \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
     \typeout{Defining Palette '#1'}%
     \expandafter\gdef\csname cpl@palette@#1\endcsname{%
@@ -59,7 +59,7 @@
 }%
 
 \def\cpl@shade@contrast{24}
-\newcommand{\SetShadeContrast}[1]{\gdef\cpl@shade@contrast{#1}}
+\newcommand*{\SetShadeContrast}[1]{\gdef\cpl@shade@contrast{#1}}
 
 \def\cpl@parse@colordata#1#2,#3: #4(#5)\@nil{%
     \definecolor{palette#1}{#4}{#5}\colorlet{shade#1}{palette#1!\cpl@shade@contrast!white}%
@@ -86,19 +86,18 @@
     \cpl@undef{paletteA}\cpl@undef{paletteB}\cpl@undef{paletteC}\cpl@undef{paletteD}%
 }
 
-\newcommand{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
+\newcommand*{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
 \typeout{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\xdef\CurrentPalette{#1}\fi}
 
-\newcommand{\WithPalette}[2]{%
+\newcommand*{\WithPalette}[2]{%
 \bgroup%
 \edef\@cpl@tmp{\CurrentPalette}%
 \UsePalette{#1}#2%
 \UsePalette{\@cpl@tmp}% in case of none
-\egroup
-}
+\egroup}
 
-\newcommand{\ShowcasePalette}[1]{%
+\newcommand*{\ShowcasePalette}[1]{%
     \WithPalette{#1}{\ShowcaseCurrentPalette}%
 }
 
@@ -106,7 +105,7 @@
     \strut\emph{palette#1} & \colorbox{palette#1}{\vphantom{A}~~$\,$}$\,$\colorbox{shade#1}{\vphantom{A}~~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
 }
 
-\newcommand{\ShowcaseCurrentPalette}{%
+\newcommand*{\ShowcaseCurrentPalette}{%
 \bgroup%
     \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
         \multicolumn{4}{c}{\textbf{Palette: \strut\textit{\CurrentPalette}}}\\
@@ -210,7 +209,6 @@
 {Blau,bläulich: RGB(0, 141, 211)}
 {Grün,grünlich: RGB(134, 150, 0)}
 {Gelb,gelblich: RGB(186, 135, 0)}
-
 
 %% Option-Execution
 %% -----------------------------------------------------------------------------
