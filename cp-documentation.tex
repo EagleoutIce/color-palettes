@@ -57,7 +57,7 @@
 \begin{verbatim}
 <noun>,<adjective>: <format>(<specification>)
 \end{verbatim}
-Exemplarisch sei hier die Definition von \emph{IceLake} präsentiert:
+Exemplarisch sei hier die Definition von \emph{IceLake}\footnote{Da die Paletten immer wieder aktualisiert werden, müssen die angegebenen RGB-Werte nicht exakt denen entsprechen, die das Paket präsentiert. Das System ist allerdings identisch.} präsentiert:
 \begin{verbatim}
 \DefinePalette{IceLake}
     {Dunkelblau,dunkelbläulich: RGB(049, 068, 095)}
@@ -102,12 +102,17 @@ Die Farben stehen anschließend unter den Bezeichnern \texttt{paletteA}, \texttt
     Erlaubt es den Kontrast der \texttt{shade*}-Farben zu setzen. Der Wert \arg{num} muss zwischen 0 und 100 liegen, der Standardwert ist \makeatletter\cpl@shade@contrast\makeatother.
 \end{command}
 
+\begin{command}[v1.1]{WithPalette}{\manArg{Name}\manArg{Text/Code}}
+    Setzt \arg{Text/Code} in der Palette mit Bezeichner \arg{Name}.
+\end{command}
+
+
 
 \section{Paketoptionen}
 \label{sec:packetoptions}Das Paket kann (\texttt{v1.1}) mit den Optionen \texttt{hyperref}/\texttt{nohyperref} geladen werden. Die
 Angabe von \texttt{hyperref} fordert, dass das gleichnamige Paket geladen ist und
 setzt die Linkfarben entsprechend der Palette neu. Beispiel:
-{\UsePalette{SourCandy}\hyperref[sec:packetoptions]{Link in \CurrentPalette}}, \hyperref[sec:packetoptions]{Link in \CurrentPalette} und {\UsePalette{BloodyGrass}\hyperref[sec:packetoptions]{Link in \CurrentPalette}}.
+\WithPalette{SourCandy}{\hyperref[sec:packetoptions]{Link in \CurrentPalette}}, \hyperref[sec:packetoptions]{Link in \CurrentPalette} und \WithPalette{BloodyGrass}{\hyperref[sec:packetoptions]{Link in \CurrentPalette}}.
 
 Ebenso gibt es die Paketoptionen (\texttt{v1.1}) \texttt{enumitem}/\texttt{noenumitem} die bei geladenem gleichnamigen Paket die Gestalt\footnote{Nach aktuellem Stand wird automatisch \texttt{amssymb} geladen.} von \emph{itemize} verändern:
 \begin{center}
@@ -132,7 +137,7 @@ Ebenso gibt es die Paketoptionen (\texttt{v1.1}) \texttt{enumitem}/\texttt{noenu
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
 \subsection{Version 1.1}
-Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt.
+Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt. Einige Paletten wurden aktualisiert und die Befehle \cmdref{SetShadeContrast}, wie auch \cmdref{WithPalette} eingeführt.
 
 \clearpage
 \section{Vordefinierte Paletten}

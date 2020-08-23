@@ -90,13 +90,16 @@
 \typeout{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\xdef\CurrentPalette{#1}\fi}
 
-
-\newcommand{\ShowcasePalette}[1]{%
+\newcommand{\WithPalette}[2]{%
 \bgroup%
 \edef\@cpl@tmp{\CurrentPalette}%
-\UsePalette{#1}\ShowcaseCurrentPalette%
+\UsePalette{#1}#2%
 \UsePalette{\@cpl@tmp}% in case of none
 \egroup
+}
+
+\newcommand{\ShowcasePalette}[1]{%
+    \WithPalette{#1}{\ShowcaseCurrentPalette}%
 }
 
 \def\cpl@showcase@palette#1{%
