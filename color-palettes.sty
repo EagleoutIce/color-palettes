@@ -40,7 +40,7 @@
 %       example: "Blau,bläulich: RGB(0,0,255)"
 \newcommand*{\DefinePalette}[5]{%
     \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
-    \typeout{Defining Palette '#1'}%
+    \typeout{Defining palette '#1'}%
     \expandafter\gdef\csname cpl@palette@#1\endcsname{%
         \expandafter\cpl@parse@colordata{A}#2\@nil%
         \expandafter\cpl@parse@colordata{B}#3\@nil%
@@ -180,7 +180,7 @@
 {Dunkelrot,dunkelrot: RGB(130, 0, 40)}
 {Rot,rötlich: RGB(159, 36, 44)}
 {Hellrot,hellrötlich: RGB(246, 77, 82)}
-{Blau,bläulich: RGB(24, 168, 139)}
+{Blau,bläulich: RGB(23, 159, 143)}
 
 \DefinePalette{Legacy}
 {Lila,lila: RGB(104, 34, 139)}
