@@ -106,7 +106,9 @@ Die Farben stehen anschließend unter den Bezeichnern \texttt{paletteA}, \texttt
     Setzt \arg{Text/Code} in der Palette mit Bezeichner \arg{Name}. Anschließend wird zur vorherigen Palette zurückgewechselt.
 \end{command}
 
-
+\begin{command}[v1.1]{AllPalettes}{}
+    Liefert eine Liste alle definierten Paletten: \say{\AllPalettes}.
+\end{command}
 
 \section{Paketoptionen}
 \label{sec:packetoptions}Das Paket kann (\texttt{v1.1}) mit den Optionen \texttt{hyperref}/\texttt{nohyperref} geladen werden. Die
@@ -137,7 +139,7 @@ Ebenso gibt es die Paketoptionen (\texttt{v1.1}) \texttt{enumitem}/\texttt{noenu
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
 \subsection{Version 1.1}
-Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt. Einige Paletten wurden aktualisiert und die Befehle \cmdref{SetShadeContrast}, wie auch \cmdref{WithPalette} eingeführt.
+Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt. Einige Paletten wurden aktualisiert und die Befehle \cmdref{SetShadeContrast}, wie auch \cmdref{WithPalette} sowie \cmdref{AllPalettes} eingeführt.
 
 \clearpage
 \section{Vordefinierte Paletten}
