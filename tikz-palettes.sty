@@ -162,4 +162,26 @@
 {\paletteCname: paletteC}
 {\paletteDname{} gepunktet: paletteD,postaction={pattern={dots},pattern color=paletteD}}
 {Schwarz: text=black,fill=white}
+
+\DefineTikzPalette{SpecialMark}
+{\---: }
+{\---: }
+{\---: }
+{gestreift: postaction={pattern={north west lines},pattern color=black}}
+{Schwarz: text=black}
+
+\DefineTikzPalette{RainbowMark}
+{diagonal gestreift: postaction={pattern={north west lines}}}
+{vertikal gestreift: postaction={pattern={vertical lines}}}
+{horizontal gestreift: postaction={pattern={horizontal lines}}}
+{gepunktet: postaction={pattern={dots}}}
+{Schwarz: text=black,fill=white}
+
+\DefineTikzPalette{RainbowStarMark}
+{diagonal gestreift: postaction={pattern={north west lines}}}
+{vertikal gestreift: postaction={pattern={vertical lines}}}
+{gepunktet: postaction={pattern={dots}}}
+{gesternt: postaction={pattern={fivepointed stars}}}
+{Schwarz: text=black,fill=white}
+
 \endinput
