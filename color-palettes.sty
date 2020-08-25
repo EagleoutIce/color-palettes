@@ -89,7 +89,7 @@
 \typeout{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
-\newcommand*{\WithPalette}[2]{%
+\newcommand{\WithPalette}[2]{%
 \bgroup%
 \edef\@cpl@tmp{\CurrentPalette}%
 \UsePalette{#1}#2%
