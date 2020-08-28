@@ -22,6 +22,10 @@
 \DeclareOption{enumitem}{\cpl@setup@enumitem@true}
 \DeclareOption{noenumitem}{\cpl@setup@enumitem@false}
 
+\newif\ifcpl@setup@defaults@ \cpl@setup@defaults@true
+\DeclareOption{defaults}{\cpl@setup@defaults@true}
+\DeclareOption{nodefaults}{\cpl@setup@defaults@false}
+
 \ProcessOptions*%
 
 %% Packages
@@ -247,5 +251,13 @@
 \fi
 
 \AtBeginDocument{\cpl@hooks}
+
+%% Defaults
+%% -----------------------------------------------------------------------------
+\def\cpl@default@palette{IceLake}
+
+\ifcpl@setup@defaults@
+\UsePalette{\cpl@default@palette}
+\fi
 
 \endinput
