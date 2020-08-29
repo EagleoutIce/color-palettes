@@ -26,6 +26,10 @@
 \DeclareOption{defaults}{\cpl@setup@defaults@true}
 \DeclareOption{nodefaults}{\cpl@setup@defaults@false}
 
+\newif\ifcpl@setup@addons@
+\DeclareOption{addons}{\cpl@setup@addons@true}
+\DeclareOption{noaddons}{\cpl@setup@addons@false}
+
 \ProcessOptions*%
 
 %% Packages
@@ -212,6 +216,34 @@
 {Blau,bläulich: RGB(0, 141, 211)}
 {Grün,grünlich: RGB(134, 150, 0)}
 {Gelb,gelblich: RGB(186, 135, 0)}
+
+\ifcpl@setup@addons@
+\DefinePalette{Lucy}
+{Orange,orange: RGB(245, 130, 32)}
+{Dunkelgrau,dunkelgräulich: RGB(126, 126, 126)}
+{Grau,gräulich: RGB(167, 167, 167)}
+{Lila,lilafarben: RGB(115, 92, 142)}
+\DefinePalette{UniInfo}
+{Rot,rötlich: RGB(163, 38, 56)}
+{Beige,beigefarben: RGB(169, 162, 141)}
+{Hellbeige,hellbeige: RGB(189, 194, 139)}
+{Blau,bläulich: RGB(125, 154, 170)}
+\DefinePalette{UniMawi}
+{Grün,grünlich: RGB(86, 170, 28)}
+{Beige,beigefarben: RGB(169, 162, 141)}
+{Hellbeige,hellbeige: RGB(189, 194, 139)}
+{Blau,bläulich: RGB(125, 154, 170)}
+\DefinePalette{UniNawi}
+{Orange,orange: RGB(189, 96, 5)}
+{Beige,beigefarben: RGB(169, 162, 141)}
+{Hellbeige,hellbeige: RGB(189, 194, 139)}
+{Blau,bläulich: RGB(125, 154, 170)}
+\DefinePalette{UniMed}
+{Dunkelblau,dunkelbläulich: RGB(38, 84, 124)}
+{Beige,beigefarben: RGB(169, 162, 141)}
+{Hellbeige,hellbeige: RGB(189, 194, 139)}
+{Blau,bläulich: RGB(125, 154, 170)}
+\fi
 
 %% Option-Execution
 %% -----------------------------------------------------------------------------

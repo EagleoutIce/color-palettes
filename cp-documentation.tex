@@ -9,7 +9,7 @@
 
 \usepackage[main=ngerman,english]{babel}
 
-\usepackage[hyperref,enumitem]{color-palettes}
+\usepackage[hyperref,enumitem,addons]{color-palettes}
 
 \usepackage{imakeidx}
 \makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
@@ -33,8 +33,10 @@
 
 \newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2@\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35\baselineskip plus 0.15\baselineskip minus 0.05\baselineskip}
 
-\title{color-palettes.sty}
+\title{\textsf{\paletteD{\{}\paletteA{color-palettes.sty}\paletteD{\}}}}
 \author{Florian Sihler}
 \date{\today}
 
@@ -137,6 +139,8 @@ Ebenso gibt es die Paketoptionen (\texttt{v1.1}) \texttt{enumitem}/\texttt{noenu
 
 Weiter gibt es mit \texttt{v1.1} die Paketoptionen \texttt{defaults}/\texttt{nodefaults}, wobei standardmäßig erstere Gesetzt ist. Im Falle von Defaults wird automatisch die Palette \makeatletter\emph{\cpl@default@palette}\makeatother{} geladen.
 
+Durch \texttt{addons}/\texttt{noaddons} (\texttt{v1.1}) kann weiter kontrolliert werden, ob die \secref{sec:addon-palletes} geladen werden.
+
 \section{Versionierung}
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
@@ -160,6 +164,23 @@ Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{en
 \end{center}
 \egroup
 \vfill\hbox{}
+
+\section{Zusätzliche Paletten}
+\label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[]{sec:packetoptions}{Paketoption} \texttt{addons} aktiviert:\hbox{}\vfill
+\bgroup
+\footnotesize\begin{center}
+    \begin{tabular}{cc}
+        \ShowcasePalette{Lucy} & 
+        \ShowcasePalette{UniInfo} \\[6em]
+        \ShowcasePalette{UniMawi} & 
+        \ShowcasePalette{UniNawi} \\[6em]
+        \ShowcasePalette{UniMed} 
+    \end{tabular}
+\end{center}
+\egroup
+\vfill\hbox{}
+
+
 \clearpage\appendix
 \addcontentsline{toc}{section}{\indexname}
 \printindex
