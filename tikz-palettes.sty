@@ -8,7 +8,7 @@
 
 % All internal commands are prefixed by 'tpl'
 
-\ProvidesPackage{tikz-palettes}[2020/08/23 v1.0 a style and palette control package based on color-palettes for tikz] 
+\ProvidesPackage{tikz-palettes}[2020/08/23 v1.1 a style and palette control package based on color-palettes for tikz]
 
 %% Options
 %% -----------------------------------------------------------------------------
@@ -21,10 +21,19 @@
 \DeclareOption{enumitem}{\tpl@setup@enumitem@true}
 \DeclareOption{noenumitem}{\tpl@setup@enumitem@false}
 
+\newif\iftpl@setup@loadpkgs@
+\DeclareOption{loadpkgs}{\tpl@setup@loadpkgs@true}
+\DeclareOption{noloadpkgs}{\tpl@setup@loadpkgs@false}
+
+\ExecuteOptions{loadpkgs}
+
 \ProcessOptions*%
 
 %% Packages
 %% -----------------------------------------------------------------------------
+\iftpl@setup@loadpkgs@%
+    \RequirePackage{tikz}%
+\fi
 \iftpl@setup@hyperref@\PassOptionsToPackage{hyperref}{color-palettes}\else%
 \PassOptionsToPackage{nohyperref}{color-palettes}\fi
 \iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else%

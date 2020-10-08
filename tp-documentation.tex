@@ -103,11 +103,15 @@ Die Stile stehen anschließend unter den Bezeichnern \texttt{tikzA}, \texttt{tik
 
 
 \section{Paketoptionen}
-\label{sec:packetoptions}Das Paket selbst bietet keine besonderen Optionen, kann aber die Optionen für \paletteA{color-palettes} akzeptieren, die dann entsprechend weitergereicht werden.
+\label{sec:packetoptions}Das Paket selbst kann alle Optionen für \paletteA{color-palettes} akzeptieren, die dann entsprechend weitergereicht werden. Weiter unterstützt es die Option \T{loadpkgs}, die standardmäßig aktiv ist und automatisch das Paket \T{tikz} läd. Dieses Verhalten kann durch die Option \T{noloadpkgs} unterdrückt werden.
+
 \makeatletter
 \section{Versionierung}
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefineTikzPalette}, \cmdref{CurrentTikzPalette}, \cmdref{UseTikzPalette}, \cmdref{ShowcaseTikzPalette} und \cmdref{ShowcaseCurrentTikzPalette}.
+\subsection{Version 1.1}
+Option zum automatischen Laden von Paketen (\T{loadpkgs}) hinzugefügt.
+
 \clearpage
 \section{Vordefinierte Paletten}
 \label{sec:predefined-palletes}\hbox{}\vfill
@@ -117,7 +121,7 @@ Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefineTikzPalette}, \cmdr
         \ShowcaseTikzPalette{CleanPlate} & \ShowcaseTikzPalette{DeepInk} \\[8em] \ShowcaseTikzPalette{CleanStripes} & \ShowcaseTikzPalette{Blueprint} \\[8em]
         \ShowcaseTikzPalette{MajorMark} & \ShowcaseTikzPalette{BlueprintStripes} \\[8em]
         \ShowcaseTikzPalette{SpecialMark} & \ShowcaseTikzPalette{RainbowMark} \\[8em]
-        \ShowcaseTikzPalette{RainbowStarMark} & 
+        \ShowcaseTikzPalette{RainbowStarMark} &
     \end{tabular}
 \end{center}
 \egroup
