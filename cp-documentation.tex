@@ -46,7 +46,7 @@
 
 \begin{abstract}
     Dieses Paket dient der Handhabung von Farbpaletten. Es liefert Makros zur einfachen Definition vierfarbiger Paletten, die sich an die jeweilige Umgebung anpassen und auch
-    gewechselt werden können. 
+    gewechselt werden können.
 \end{abstract}
 % TODO: Zwilling: tikz-palettes
 
@@ -141,11 +141,15 @@ Weiter gibt es mit \texttt{v1.1} die Paketoptionen \texttt{defaults}/\texttt{nod
 
 Durch \texttt{addons}/\texttt{noaddons} (\texttt{v1.1}) kann weiter kontrolliert werden, ob die \secref{sec:addon-palletes} geladen werden.
 
+Mit der Version \texttt{v1.2} kam dann die Paketoption \T{lithieboxes} hinzu (Gegenoption: \T{nolithieboxes}). Diese hat nur einen Effekt wenn auch \T{enumitem} aktiv ist, sorgt dann aber dafür, dass die damit gesetzten Farben sich an die jeweilige Box anpassen. Eine Unterstützung für \T{hyperref} ist aktuell nicht geplant da für diese Handhabung \T{lecture-links} aus der \href{https://github.com/EagleoutIce/lithie-util}{lithie-util} Sammlung eine viel bessere Unterstützung liefert.
+
 \section{Versionierung}
 \subsection{Version 1.0}
 Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{DefinePalette}, \cmdref{CurrentPalette}, \cmdref{UsePalette}, \cmdref{ShowcasePalette} und \cmdref{ShowcaseCurrentPalette}.
 \subsection{Version 1.1}
 Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{enumitem} wurden hinzugefügt. Einige Paletten wurden aktualisiert und die Befehle \cmdref{SetShadeContrast}, wie auch \cmdref{WithPalette} sowie \cmdref{AllPalettes} eingeführt.
+\subsection{Version 1.2}
+Die \hyperref[sec:packetoptions]{Paketoption} \texttt{enumitem} wurde hinzugefügt.
 
 \clearpage
 \section{Vordefinierte Paletten}
@@ -170,9 +174,9 @@ Die \hyperref[sec:packetoptions]{Paketoptionen} \texttt{hyperref} und \texttt{en
 \bgroup
 \footnotesize\begin{center}
     \begin{tabular}{cc}
-        \ShowcasePalette{Lucy} & 
+        \ShowcasePalette{Lucy} &
         \ShowcasePalette{UniInfo} \\[6em]
-        \ShowcasePalette{UniMawi} & 
+        \ShowcasePalette{UniMawi} &
         \ShowcasePalette{UniNawi} \\[6em]
         \ShowcasePalette{UniMed} &
         \ShowcasePalette{Ntts} \\[6em]

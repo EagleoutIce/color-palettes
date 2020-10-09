@@ -9,7 +9,7 @@
 
 % All internal commands are prefixed by 'cpl'
 
-\ProvidesPackage{color-palettes}[2020/08/22 v1.1 a color and palette control package based on xcolor] 
+\ProvidesPackage{color-palettes}[2020/08/22 v1.2 a color and palette control package based on xcolor]
 
 %% Options
 %% -----------------------------------------------------------------------------
@@ -21,6 +21,10 @@
 \newif\ifcpl@setup@enumitem@
 \DeclareOption{enumitem}{\cpl@setup@enumitem@true}
 \DeclareOption{noenumitem}{\cpl@setup@enumitem@false}
+
+\newif\ifcpl@setup@lithieboxes@
+\DeclareOption{lithieboxes}{\cpl@setup@lithieboxes@true}
+\DeclareOption{nolithieboxes}{\cpl@setup@lithieboxes@false}
 
 \newif\ifcpl@setup@defaults@ \cpl@setup@defaults@true
 \DeclareOption{defaults}{\cpl@setup@defaults@true}
@@ -292,7 +296,14 @@
 
 \ifcpl@setup@enumitem@
 \RequirePackage{amssymb}
-\def\cp@color@itemize{paletteA}
+\ifcpl@setup@lithieboxes@%
+    \def\cp@color@itemize{%
+        \ifcsname libx@boxid\endcsname%
+        \libx@get{BoxColor}\else paletteA\fi%
+    }
+\else%
+    \def\cp@color@itemize{paletteA}
+\fi
 \def\cpl@enum@hook{%
 \setlist[itemize,1]{label={\textcolor{\cp@color@itemize}{$\blacktriangleright$}}}%
 \setlist[itemize,2]{label={\textcolor{\cp@color@itemize}{\smaller[2]\raisebox{2pt}{$\blacksquare$}}}}%
