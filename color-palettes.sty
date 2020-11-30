@@ -53,7 +53,7 @@
 % #2 name of palette
 % #3-#6 colors in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
-\newcommand*{\DefinePalette}[6][gray]{%
+\newcommand*{\DefinePalette}[6][grau,gräulichgray: other(lightgray!45!white)]{%
     \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
     \typeout{Defining palette '#2'}%
     \expandafter\gdef\csname cpl@palette@#2\endcsname{%
@@ -61,6 +61,7 @@
         \expandafter\cpl@parse@colordata{B}#4\@nil%
         \expandafter\cpl@parse@colordata{C}#5\@nil%
         \expandafter\cpl@parse@colordata{D}#6\@nil%
+        \expandafter\cpl@parse@colordata*{Gray}#1\@nil%
     }%
     \ifx\cpl@registered@palettes\cpl@none%
         \xdef\cpl@registered@palettes{#2}%
@@ -72,8 +73,18 @@
 \def\cpl@shade@contrast{24}
 \newcommand*{\SetShadeContrast}[1]{\gdef\cpl@shade@contrast{#1}}
 
-\def\cpl@parse@colordata#1#2,#3: #4(#5)\@nil{%
-    \definecolor{palette#1}{#4}{#5}\colorlet{shade#1}{palette#1!\cpl@shade@contrast!white}%
+\def\cpl@parse@colordate@colorlet{other}
+\def\cpl@parse@colordata{\@ifstar\cpl@parse@colordata@star\cpl@parse@colordata@nostar}
+\def\cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil{%
+    \edef\cpl@parse@colordate@tk{#4}%
+    \ifx\cpl@parse@colordate@colorlet\cpl@parse@colordate@tk%
+        \colorlet{palette#1}{#5}%
+    \else\definecolor{palette#1}{#4}{#5}\fi%
+    \colorlet{shade#1}{palette#1!\cpl@shade@contrast!white}%
+    % no names! they will be dropped if given
+}
+\def\cpl@parse@colordata@nostar#1#2,#3: #4(#5)\@nil{%
+    \cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil%
     \expandafter\gdef\csname palette#1name\endcsname{#2}%
     \expandafter\gdef\csname palette#1adj\endcsname{#3}%
 }
@@ -114,7 +125,12 @@
 }
 
 \def\cpl@showcase@palette#1{%
-    \strut\emph{palette#1} & \colorbox{palette#1}{\vphantom{A}~~$\,$}$\,$\colorbox{shade#1}{\vphantom{A}~~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
+    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~$\,$}$\,$\colorbox{shade#1}{\phantom{A}~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
+}
+\def\cpl@showcase@palette@gray#1{%
+    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~$\,$}$\,$\colorbox{shade#1}{\phantom{A}~$\,$} & %
+    \colorbox{palette#1}{$\;$\textcolor{black}{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteA{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteB{A}$\;$} & %
+        \colorbox{palette#1}{$\;$\paletteC{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteD{A}$\;$}\,\colorbox{palette#1}{$\;$\textcolor{white}{A}$\;$} %
 }
 
 \newcommand*{\ShowcaseCurrentPalette}{%
@@ -127,6 +143,7 @@
         \cpl@showcase@palette{B} \\ %
         \cpl@showcase@palette{C} \\ %
         \cpl@showcase@palette{D} \\ %
+        \cpl@showcase@palette@gray{Gray} \\ %
     \end{tabular}%
 \egroup}
 

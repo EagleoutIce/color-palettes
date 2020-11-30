@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage{microtype,hyperref,array,enumitem}
+\usepackage{microtype,hyperref,array,enumitem,longtable}
 
 \usepackage[main=ngerman,english]{babel}
 
@@ -153,10 +153,10 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
 
 \clearpage
 \section{Vordefinierte Paletten}
-\label{sec:predefined-palletes}\hbox{}\vfill
+\label{sec:predefined-palletes}
 \bgroup
-\footnotesize\begin{center}
-    \begin{tabular}{cc}
+\footnotesize
+    \begin{longtable}{cc}
         \ShowcasePalette{Water} & \ShowcasePalette{GraySun} \\[6em]
         \ShowcasePalette{ClayGrass} & \ShowcasePalette{PurpleCoin} \\[6em]
         \ShowcasePalette{Moonshine} & \ShowcasePalette{BloodyGrass} \\[6em]
@@ -164,33 +164,26 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
         \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
         \ShowcasePalette{GrayPrint} & \ShowcasePalette{Rainbow} \\[6em]
         \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint}
-    \end{tabular}
-\end{center}
+    \end{longtable}
 \egroup
-\vfill\hbox{}
 
 \section{Zusätzliche Paletten}
 \label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[sec:packetoptions]{Paketoption} \texttt{addons} aktiviert:\hbox{}\vfill
 \bgroup
-\footnotesize\begin{center}
-    \begin{tabular}{cc}
-        \ShowcasePalette{Lucy} &
-        \ShowcasePalette{UniInfo} \\[6em]
-        \ShowcasePalette{UniMawi} &
-        \ShowcasePalette{UniNawi} \\[6em]
-        \ShowcasePalette{UniMed} &
-        \ShowcasePalette{Ntts} \\[6em]
-        \ShowcasePalette{PastelRainbow} &
-        \ShowcasePalette{Vampire} \\[6em]
-        \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
-        \ShowcasePalette{Beach} & \ShowcasePalette{Sand}
-    \end{tabular}
-\end{center}
-\begin{center}
-    \begin{tabular}{cc}
-        \ShowcasePalette{DarkDiamond} & \ShowcasePalette{Peach}
-    \end{tabular}
-\end{center}
+\footnotesize
+\begin{longtable}{cc}
+    \ShowcasePalette{Lucy} &
+    \ShowcasePalette{UniInfo} \\[6em]
+    \ShowcasePalette{UniMawi} &
+    \ShowcasePalette{UniNawi} \\[6em]
+    \ShowcasePalette{UniMed} &
+    \ShowcasePalette{Ntts} \\[6em]
+    \ShowcasePalette{PastelRainbow} &
+    \ShowcasePalette{Vampire} \\[6em]
+    \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
+    \ShowcasePalette{Beach} & \ShowcasePalette{Sand} \\[6em]
+    \ShowcasePalette{DarkDiamond} & \ShowcasePalette{Peach}
+\end{longtable}
 \egroup
 \vfill\hbox{}
 
