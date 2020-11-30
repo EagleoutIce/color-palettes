@@ -49,22 +49,23 @@
 
 \def\AllPalettes{\cpl@registered@palettes}
 
-% #1 name of palette
-% #2-#5 colors in the format 'name,adjective: format(CODE)'
+% #1 gray-tone fitting the colors
+% #2 name of palette
+% #3-#6 colors in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
-\newcommand*{\DefinePalette}[5]{%
+\newcommand*{\DefinePalette}[6][gray]{%
     \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
-    \typeout{Defining palette '#1'}%
-    \expandafter\gdef\csname cpl@palette@#1\endcsname{%
-        \expandafter\cpl@parse@colordata{A}#2\@nil%
-        \expandafter\cpl@parse@colordata{B}#3\@nil%
-        \expandafter\cpl@parse@colordata{C}#4\@nil%
-        \expandafter\cpl@parse@colordata{D}#5\@nil%
+    \typeout{Defining palette '#2'}%
+    \expandafter\gdef\csname cpl@palette@#2\endcsname{%
+        \expandafter\cpl@parse@colordata{A}#3\@nil%
+        \expandafter\cpl@parse@colordata{B}#4\@nil%
+        \expandafter\cpl@parse@colordata{C}#5\@nil%
+        \expandafter\cpl@parse@colordata{D}#6\@nil%
     }%
     \ifx\cpl@registered@palettes\cpl@none%
-        \xdef\cpl@registered@palettes{#1}%
+        \xdef\cpl@registered@palettes{#2}%
     \else%
-        \xdef\cpl@registered@palettes{\cpl@registered@palettes, #1}%
+        \xdef\cpl@registered@palettes{\cpl@registered@palettes, #2}%
     \fi%
 }%
 
