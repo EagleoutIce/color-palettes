@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage{microtype,hyperref,array,enumitem,longtable}
+\usepackage{microtype,hyperref,array,enumitem,longtable,needspace}
 
 \usepackage[main=ngerman,english]{babel}
 
@@ -157,33 +157,29 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
 \bgroup
 \footnotesize
     \begin{longtable}{cc}
-        \ShowcasePalette{Water} & \ShowcasePalette{GraySun} \\[6em]
-        \ShowcasePalette{ClayGrass} & \ShowcasePalette{PurpleCoin} \\[6em]
-        \ShowcasePalette{Moonshine} & \ShowcasePalette{BloodyGrass} \\[6em]
-        \ShowcasePalette{SourCandy} & \ShowcasePalette{PurpleSand} \\[6em]
+        \ShowcasePalette{Water} & \ShowcasePalette{Lucy} \\[6em]
+        \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
+        \ShowcasePalette{Peach} & \ShowcasePalette{LavenderField} \\[6em]
         \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
-        \ShowcasePalette{GrayPrint} & \ShowcasePalette{Rainbow} \\[6em]
-        \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint}
+        \ShowcasePalette{GrayPrint} & \ShowcasePalette{Rainbow}
     \end{longtable}
 \egroup
 
-\section{Zusätzliche Paletten}
+\needspace{17\baselineskip}\section{Zusätzliche Paletten}
 \label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[sec:packetoptions]{Paketoption} \texttt{addons} aktiviert:\hbox{}\vfill
 \bgroup
 \footnotesize
 \begin{longtable}{cc}
-    \ShowcasePalette{Lucy} &
-    \ShowcasePalette{UniInfo} \\[6em]
-    \ShowcasePalette{UniMawi} &
-    \ShowcasePalette{UniNawi} \\[6em]
-    \ShowcasePalette{UniMed} &
-    \ShowcasePalette{Ntts} \\[6em]
-    \ShowcasePalette{PastelRainbow} &
-    \ShowcasePalette{Vampire} \\[6em]
-    \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
+    \ShowcasePalette{GraySun} & \ShowcasePalette{UniInfo} \\[6em]
+    \ShowcasePalette{UniMawi} & \ShowcasePalette{UniNawi} \\[6em]
+    \ShowcasePalette{UniMed} & \ShowcasePalette{Ntts} \\[6em]
+    \ShowcasePalette{PastelRainbow} & \ShowcasePalette{Vampire} \\[6em]
+    \ShowcasePalette{ClayGrass} & \ShowcasePalette{PurpleCoin} \\[6em]
     \ShowcasePalette{Beach} & \ShowcasePalette{Sand} \\[6em]
-    \ShowcasePalette{DarkDiamond} & \ShowcasePalette{Peach} \\[6em]
-    \ShowcasePalette{LavenderField}
+    \ShowcasePalette{DarkDiamond} & \ShowcasePalette{Moonshine} \\[6em]
+    \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint} \\[6em]
+    \ShowcasePalette{SourCandy} & \ShowcasePalette{PurpleSand} \\[6em]
+    \ShowcasePalette{BloodyGrass} &
 \end{longtable}
 \egroup
 \vfill\hbox{}
