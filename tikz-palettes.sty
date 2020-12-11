@@ -8,7 +8,7 @@
 
 % All internal commands are prefixed by 'tpl'
 
-\ProvidesPackage{tikz-palettes}[2020/08/23 v1.1 a style and palette control package based on color-palettes for tikz]
+\ProvidesPackage{tikz-palettes}[2020/08/23 v1.2 a style and palette control package based on color-palettes for tikz]
 
 %% Options
 %% -----------------------------------------------------------------------------
@@ -25,6 +25,14 @@
 \DeclareOption{loadpkgs}{\tpl@setup@loadpkgs@true}
 \DeclareOption{noloadpkgs}{\tpl@setup@loadpkgs@false}
 
+\newif\iftpl@setup@addons@
+\DeclareOption{addons}{\tpl@setup@addons@true}
+\DeclareOption{noaddons}{\tpl@setup@addons@false}
+
+\newif\iftpl@setup@debug@
+\DeclareOption{debug}{\tpl@setup@debug@true}
+\DeclareOption{nodebug}{\tpl@setup@debug@false}
+
 \ExecuteOptions{loadpkgs}
 
 \ProcessOptions*%
@@ -39,12 +47,21 @@
 \iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else%
 \PassOptionsToPackage{noenumitem}{color-palettes}\fi
 
+\iftpl@setup@addons@\PassOptionsToPackage{addons}{color-palettes}\else%
+\PassOptionsToPackage{noaddons}{color-palettes}\fi
+
+\iftpl@setup@debug@\PassOptionsToPackage{debug}{color-palettes}\else%
+\PassOptionsToPackage{nodebug}{color-palettes}\fi
+
 \RequirePackage{color-palettes}
 
 \usetikzlibrary{patterns}
 
 %% Definitions
 %% -----------------------------------------------------------------------------
+
+\iftpl@setup@debug@\let\tpl@debug\typeout%
+\else\let\tpl@debug\@gobble\fi%
 
 \def\tpl@none{<None>}
 \edef\tpl@registered@palettes{\tpl@none}
@@ -60,7 +77,7 @@
 % #6 text-style 'writ'
 \newcommand*{\DefineTikzPalette}[6]{%
     \edef\@tpl@tmp{#1}\expandafter\ifx\expandafter\\\@tpl@tmp\\\tpl@err@noname@palette\fi%
-    \typeout{Defining tikz palette '#1'}%
+    \tpl@debug{Defining tikz palette '#1'}%
     \expandafter\gdef\csname tpl@palette@#1\endcsname{%
         \expandafter\tpl@parse@styledata{tikzA}#2\@nil%
         \expandafter\tpl@parse@styledata{tikzB}#3\@nil%
@@ -77,7 +94,7 @@
 
 \def\tpl@parse@styledata#1#2: #3\@nil{%
     \tikzset{#1/.style={#3}}%
-    \typeout{Def: '#1name'}
+    \tpl@debug{Def: '#1name'}%
     \expandafter\gdef\csname#1name\endcsname{#2}%
 }
 
@@ -92,7 +109,7 @@
 }
 
 \newcommand*{\UseTikzPalette}[1]{\edef\tpl@plt{#1}\expandafter\ifx\expandafter\\\tpl@plt\\\relax \tpl@clear@palette\gdef\CurrentTikzPalette{}\else%
-\typeout{Using tikz palette '#1'}%
+\tpl@debug{Using tikz palette '#1'}%
 \@ifundefined{tpl@palette@#1}{\tpl@err@unkown@palette{#1}}{\@nameuse{tpl@palette@#1}}\xdef\CurrentTikzPalette{#1}\fi}
 
 \newcommand*{\WithTikzPalette}[2]{%
@@ -158,6 +175,7 @@
 {\paletteDname: paletteD}
 {Schwarz: text=black}
 
+\iftpl@setup@addons@
 \DefineTikzPalette{MajorMark}
 {\paletteAname{} gestreift: postaction={pattern={north west lines},pattern color=paletteA}}
 {\---: }
@@ -192,6 +210,7 @@
 {gepunktet: postaction={pattern={dots}}}
 {gesternt: postaction={pattern={fivepointed stars}}}
 {Schwarz: text=black,fill=white}
+\fi
 
 \UseTikzPalette{DeepInk}
 \endinput

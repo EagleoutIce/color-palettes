@@ -34,6 +34,10 @@
 \DeclareOption{addons}{\cpl@setup@addons@true}
 \DeclareOption{noaddons}{\cpl@setup@addons@false}
 
+\newif\ifcpl@setup@debug@
+\DeclareOption{debug}{\cpl@setup@debug@true}
+\DeclareOption{nodebug}{\cpl@setup@debug@false}
+
 \ProcessOptions*%
 
 %% Packages
@@ -43,6 +47,9 @@
 
 %% Definitions
 %% -----------------------------------------------------------------------------
+
+\ifcpl@setup@debug@\let\cpl@debug\typeout%
+\else\let\cpl@debug\@gobble\fi%
 
 \def\cpl@none{<None>}
 \edef\cpl@registered@palettes{\cpl@none}
@@ -55,7 +62,7 @@
 %       example: "Blau,bläulich: RGB(0,0,255)"
 \newcommand*{\DefinePalette}[6][grau,gräulichgray: other(lightgray!45!white)]{%
     \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
-    \typeout{Defining palette '#2'}%
+    \cpl@debug{Defining palette '#2'}%
     \expandafter\gdef\csname cpl@palette@#2\endcsname{%
         \expandafter\cpl@parse@colordata{A}#3\@nil%
         \expandafter\cpl@parse@colordata{B}#4\@nil%
@@ -110,7 +117,7 @@
 
 \newif\ifcpl@first@palette@usage@
 \newcommand*{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
-\typeout{Using palette '#1'}%
+\cpl@debug{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
 \newcommand{\WithPalette}[2]{%
@@ -362,7 +369,7 @@
 
 %% Defaults
 %% -----------------------------------------------------------------------------
-\def\cpl@default@palette{IceLake}
+\def\cpl@default@palette{GreenWater}
 
 \ifcpl@setup@defaults@
 \UsePalette{\cpl@default@palette}
