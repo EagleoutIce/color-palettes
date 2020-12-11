@@ -9,7 +9,7 @@
 
 \usepackage[main=ngerman,english]{babel}
 
-\usepackage[hyperref,enumitem]{tikz-palettes}
+\usepackage[hyperref,enumitem,addons]{tikz-palettes}
 \UsePalette{Crimson}
 \UseTikzPalette{CleanPlate}
 
@@ -18,6 +18,7 @@
 
 
 \def\say#1{\glqq{#1}\grqq{}}
+\let\T\texttt
 
 \def\cmd#1{\texttt{\paletteA{\textbackslash#1}}}
 \def\cmdlink#1{\phantomsection\label{cmd:#1}\cmd{#1}}
