@@ -21,7 +21,7 @@
 \DeclareOption{enumitem}{\tpl@setup@enumitem@true}
 \DeclareOption{noenumitem}{\tpl@setup@enumitem@false}
 
-\newif\iftpl@setup@loadpkgs@
+\newif\iftpl@setup@loadpkgs@ \tpl@setup@loadpkgs@true
 \DeclareOption{loadpkgs}{\tpl@setup@loadpkgs@true}
 \DeclareOption{noloadpkgs}{\tpl@setup@loadpkgs@false}
 
@@ -33,7 +33,10 @@
 \DeclareOption{debug}{\tpl@setup@debug@true}
 \DeclareOption{nodebug}{\tpl@setup@debug@false}
 
-\ExecuteOptions{loadpkgs}
+\newif\iftpl@setup@rect@
+\DeclareOption{rect}{\tpl@setup@rect@true}
+\DeclareOption{norect}{\tpl@setup@rect@false}
+
 
 \ProcessOptions*%
 
@@ -46,6 +49,8 @@
 \PassOptionsToPackage{nohyperref}{color-palettes}\fi
 \iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else%
 \PassOptionsToPackage{noenumitem}{color-palettes}\fi
+\iftpl@setup@rect@\PassOptionsToPackage{rect}{color-palettes}\else%
+\PassOptionsToPackage{norect}{color-palettes}\fi
 
 \iftpl@setup@addons@\PassOptionsToPackage{addons}{color-palettes}\else%
 \PassOptionsToPackage{noaddons}{color-palettes}\fi
