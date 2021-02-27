@@ -46,7 +46,6 @@
 
 %% Packages
 %% -----------------------------------------------------------------------------
-
 \RequirePackage{xcolor}
 
 %% Definitions
@@ -62,11 +61,11 @@
 
 % #1 gray-tone fitting the colors
 % #2 name of palette
-% #3-#6 colors in the format 'name,adjective: format(CODE)'
+% #3-#6 cololrs in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
 \newcommand*{\DefinePalette}[6][grau,gräulichgray: other(lightgray!45!white)]{%
-    \edef\@cpl@tmp{#1}\expandafter\ifx\expandafter\\\@cpl@tmp\\\cpl@err@noname@palette\fi%
-    \cpl@debug{Defining palette '#2'}%
+    \protected@edef\@cpl@tmp{#1}\ifx\@cpl@tmp\@empty\cpl@err@noname@palette\fi%
+    \cpl@debug{Def palette '#2'}%
     \expandafter\gdef\csname cpl@palette@#2\endcsname{%
         \expandafter\cpl@parse@colordata{A}#3\@nil%
         \expandafter\cpl@parse@colordata{B}#4\@nil%
@@ -87,7 +86,7 @@
 \def\cpl@parse@colordate@colorlet{other}
 \def\cpl@parse@colordata{\@ifstar\cpl@parse@colordata@star\cpl@parse@colordata@nostar}
 \def\cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil{%
-    \edef\cpl@parse@colordate@tk{#4}%
+    \protected@edef\cpl@parse@colordate@tk{#4}%
     \ifx\cpl@parse@colordate@colorlet\cpl@parse@colordate@tk%
         \colorlet{palette#1}{#5}%
     \else\definecolor{palette#1}{#4}{#5}\fi%
@@ -120,32 +119,34 @@
 }
 
 \newif\ifcpl@first@palette@usage@
-\newcommand*{\UsePalette}[1]{\edef\cpl@plt{#1}\expandafter\ifx\expandafter\\\cpl@plt\\\relax \cpl@clear@palette\gdef\CurrentPalette{}\else%
+\newcommand*{\UsePalette}[1]{%
+\protected@edef\cpl@plt{#1}%
+\ifx\cpl@plt\@empty \cpl@clear@palette\gdef\CurrentPalette{}\else%
 \cpl@debug{Using palette '#1'}%
-\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\@nameuse{cpl@palette@#1}}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
+\@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\csname cpl@palette@#1\endcsname}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
 \newcommand{\WithPalette}[2]{%
-\bgroup%
-\edef\@cpl@tmp{\CurrentPalette}%
+\begingroup%
+\protected@edef\@cpl@tmp{\CurrentPalette}%
 \UsePalette{#1}#2%
 \UsePalette{\@cpl@tmp}% in case of none
-\egroup}
+\endgroup}
 
 \newcommand*{\ShowcasePalette}[1]{%
     \WithPalette{#1}{\ShowcaseCurrentPalette}%
 }
 
 \def\cpl@showcase@palette#1{%
-    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~$\,$}$\,$\colorbox{shade#1}{\phantom{A}~$\,$} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
+    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~\thinspace}\thinspace\colorbox{shade#1}{\phantom{A}~\thinspace} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
 }
 \def\cpl@showcase@palette@gray#1{%
-    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~$\,$}$\,$\colorbox{shade#1}{\phantom{A}~$\,$} & %
-    \colorbox{palette#1}{$\;$\textcolor{black}{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteA{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteB{A}$\;$} & %
-        \colorbox{palette#1}{$\;$\paletteC{A}$\;$}\,\colorbox{palette#1}{$\;$\paletteD{A}$\;$}\,\colorbox{palette#1}{$\;$\textcolor{white}{A}$\;$} %
+    \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~\thinspace}\thinspace\colorbox{shade#1}{\phantom{A}~\thinspace} & %
+    \colorbox{palette#1}{$\;$\textcolor{black}{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\paletteA{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\paletteB{A}$\;$} & %
+        \colorbox{palette#1}{$\;$\paletteC{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\paletteD{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\textcolor{white}{A}$\;$} %
 }
 
 \newcommand*{\ShowcaseCurrentPalette}{%
-\bgroup%
+\begingroup%
     \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
         \multicolumn{4}{c}{\textbf{Palette: \strut\textit{\CurrentPalette}}}\\
         ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~ & Adjective~~~~~~~~~~ \\
@@ -156,7 +157,7 @@
         \cpl@showcase@palette{D} \\ %
         \cpl@showcase@palette@gray{Gray} \\ %
     \end{tabular}%
-\egroup}
+\endgroup}
 
 \long\def\paletteA#1{\textcolor{paletteA}{#1}}
 \long\def\paletteB#1{\textcolor{paletteB}{#1}}
@@ -352,10 +353,10 @@
 \ifcpl@setup@enumitem@
 \RequirePackage{amssymb}
 \ifcpl@setup@lithieboxes@%
-    \def\cp@color@itemize{%
-        \ifcsname libx@boxid\endcsname%
-        \libx@get{BoxColor}\else paletteA\fi%
-    }
+\def\cp@color@itemize{%
+    \ifcsname libx@boxid\endcsname%
+    \libx@get{BoxColor}\else paletteA\fi%
+}
 \else%
     \def\cp@color@itemize{paletteA}
 \fi
