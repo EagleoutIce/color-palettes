@@ -12,7 +12,6 @@
 
 %% Options
 %% -----------------------------------------------------------------------------
-
 \newif\iftpl@setup@hyperref@
 \DeclareOption{hyperref}{\tpl@setup@hyperref@true}
 \DeclareOption{nohyperref}{\tpl@setup@hyperref@false}
@@ -36,8 +35,6 @@
 \newif\iftpl@setup@rect@
 \DeclareOption{rect}{\tpl@setup@rect@true}
 \DeclareOption{norect}{\tpl@setup@rect@false}
-
-
 \ProcessOptions*%
 
 %% Packages
@@ -59,7 +56,6 @@
 \PassOptionsToPackage{nodebug}{color-palettes}\fi
 
 \RequirePackage{color-palettes}
-
 \usetikzlibrary{patterns}
 
 %% Definitions
@@ -81,8 +77,9 @@
 %       example: "blau gestrichelt: postaction={north west lines},fill=paletteA"
 % #6 text-style 'writ'
 \newcommand*{\DefineTikzPalette}[6]{%
-    \edef\@tpl@tmp{#1}\expandafter\ifx\expandafter\\\@tpl@tmp\\\tpl@err@noname@palette\fi%
-    \tpl@debug{Defining tikz palette '#1'}%
+    \protected@edef\@tpl@tmp{#1}%
+    \ifx\@tpl@tmp\@empty\tpl@err@noname@palette\fi%
+    \tpl@debug{Def tikz palette '#1'}%
     \expandafter\gdef\csname tpl@palette@#1\endcsname{%
         \expandafter\tpl@parse@styledata{tikzA}#2\@nil%
         \expandafter\tpl@parse@styledata{tikzB}#3\@nil%
@@ -113,16 +110,18 @@
     \tpl@undef{tikzA}\tpl@undef{tikzB}\tpl@undef{tikzC}\tpl@undef{tikzD}%
 }
 
-\newcommand*{\UseTikzPalette}[1]{\edef\tpl@plt{#1}\expandafter\ifx\expandafter\\\tpl@plt\\\relax \tpl@clear@palette\gdef\CurrentTikzPalette{}\else%
+\newcommand*{\UseTikzPalette}[1]{%
+\protected@edef\tpl@plt{#1}%
+\ifx\tpl@plt\@empty \tpl@clear@palette\gdef\CurrentTikzPalette{}\else%
 \tpl@debug{Using tikz palette '#1'}%
 \@ifundefined{tpl@palette@#1}{\tpl@err@unkown@palette{#1}}{\@nameuse{tpl@palette@#1}}\xdef\CurrentTikzPalette{#1}\fi}
 
 \newcommand*{\WithTikzPalette}[2]{%
-\bgroup%
-\edef\@tpl@tmp{\CurrentTikzPalette}%
+\begingroup%
+\protected@edef\@tpl@tmp{\CurrentTikzPalette}%
 \UseTikzPalette{#1}#2%
 \UseTikzPalette{\@tpl@tmp}% in case of none
-\egroup}
+\endgroup}
 
 \newcommand*{\ShowcaseTikzPalette}[1]{%
     \WithTikzPalette{#1}{\ShowcaseCurrentTikzPalette}%
@@ -136,18 +135,18 @@
 }
 
 \newcommand*{\ShowcaseCurrentTikzPalette}{%
-\bgroup%
-    \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccl}%
-        \multicolumn{3}{c}{\textbf{Palette: \strut\textit{\CurrentTikzPalette}}}\\
-        ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~~~~~~~~~~~~ \\
-        \hline
-        \tpl@showcase@palette{A} \\ %
-        \tpl@showcase@palette{B} \\ %
-        \tpl@showcase@palette{C} \\ %
-        \tpl@showcase@palette{D} \\[0.033em] %
-        \tpl@showcase@text{} \\ %
-    \end{tabular}%
-\egroup}
+\begingroup%
+\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccl}%
+    \multicolumn{3}{c}{\textbf{Palette: \strut\textit{\CurrentTikzPalette}}}\\
+    ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~~~~~~~~~~~~ \\
+    \hline
+    \tpl@showcase@palette{A} \\ %
+    \tpl@showcase@palette{B} \\ %
+    \tpl@showcase@palette{C} \\ %
+    \tpl@showcase@palette{D} \\[0.033em] %
+    \tpl@showcase@text{} \\ %
+\end{tabular}%
+\endgroup}
 
 %% The default palettes
 %% -----------------------------------------------------------------------------
