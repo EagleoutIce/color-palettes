@@ -39,20 +39,20 @@
 
 %% Packages
 %% -----------------------------------------------------------------------------
-\iftpl@setup@loadpkgs@%
+\iftpl@setup@loadpkgs@
     \RequirePackage{tikz}%
 \fi
-\iftpl@setup@hyperref@\PassOptionsToPackage{hyperref}{color-palettes}\else%
+\iftpl@setup@hyperref@\PassOptionsToPackage{hyperref}{color-palettes}\else
 \PassOptionsToPackage{nohyperref}{color-palettes}\fi
-\iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else%
+\iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else
 \PassOptionsToPackage{noenumitem}{color-palettes}\fi
-\iftpl@setup@rect@\PassOptionsToPackage{rect}{color-palettes}\else%
+\iftpl@setup@rect@\PassOptionsToPackage{rect}{color-palettes}\else
 \PassOptionsToPackage{norect}{color-palettes}\fi
 
-\iftpl@setup@addons@\PassOptionsToPackage{addons}{color-palettes}\else%
+\iftpl@setup@addons@\PassOptionsToPackage{addons}{color-palettes}\else
 \PassOptionsToPackage{noaddons}{color-palettes}\fi
 
-\iftpl@setup@debug@\PassOptionsToPackage{debug}{color-palettes}\else%
+\iftpl@setup@debug@\PassOptionsToPackage{debug}{color-palettes}\else
 \PassOptionsToPackage{nodebug}{color-palettes}\fi
 
 \RequirePackage{color-palettes}
@@ -61,8 +61,8 @@
 %% Definitions
 %% -----------------------------------------------------------------------------
 
-\iftpl@setup@debug@\let\tpl@debug\typeout%
-\else\let\tpl@debug\@gobble\fi%
+\iftpl@setup@debug@\let\tpl@debug\typeout
+\else\let\tpl@debug\@gobble\fi
 
 \def\tpl@none{<None>}
 \edef\tpl@registered@palettes{\tpl@none}
@@ -78,16 +78,16 @@
 % #6 text-style 'writ'
 \newcommand*{\DefineTikzPalette}[6]{%
     \protected@edef\@tpl@tmp{#1}%
-    \ifx\@tpl@tmp\@empty\tpl@err@noname@palette\fi%
+    \ifx\@tpl@tmp\@empty\tpl@err@noname@palette\fi
     \tpl@debug{Def tikz palette '#1'}%
     \expandafter\gdef\csname tpl@palette@#1\endcsname{%
-        \expandafter\tpl@parse@styledata{tikzA}#2\@nil%
-        \expandafter\tpl@parse@styledata{tikzB}#3\@nil%
-        \expandafter\tpl@parse@styledata{tikzC}#4\@nil%
-        \expandafter\tpl@parse@styledata{tikzD}#5\@nil%
-        \expandafter\tpl@parse@styledata{writ}#6\@nil%
+        \expandafter\tpl@parse@styledata{tikzA}#2\@nil
+        \expandafter\tpl@parse@styledata{tikzB}#3\@nil
+        \expandafter\tpl@parse@styledata{tikzC}#4\@nil
+        \expandafter\tpl@parse@styledata{tikzD}#5\@nil
+        \expandafter\tpl@parse@styledata{writ}#6\@nil
     }%
-    \ifx\tpl@registered@palettes\tpl@none%
+    \ifx\tpl@registered@palettes\tpl@none
         \xdef\tpl@registered@palettes{#1}%
     \else%
         \xdef\tpl@registered@palettes{\tpl@registered@palettes, #1}%
@@ -103,7 +103,7 @@
 \def\CurrentTikzPalette{}
 
 \def\tpl@undef#1{%
-    \expandafter\gdef\csname#1name\endcsname\@nil%
+    \expandafter\gdef\csname#1name\endcsname\@nil
 }
 % clears all registers
 \def\tpl@clear@palette{%
@@ -112,12 +112,12 @@
 
 \newcommand*{\UseTikzPalette}[1]{%
 \protected@edef\tpl@plt{#1}%
-\ifx\tpl@plt\@empty \tpl@clear@palette\gdef\CurrentTikzPalette{}\else%
+\ifx\tpl@plt\@empty \tpl@clear@palette\gdef\CurrentTikzPalette{}\else
 \tpl@debug{Using tikz palette '#1'}%
 \@ifundefined{tpl@palette@#1}{\tpl@err@unkown@palette{#1}}{\@nameuse{tpl@palette@#1}}\xdef\CurrentTikzPalette{#1}\fi}
 
 \newcommand*{\WithTikzPalette}[2]{%
-\begingroup%
+\begingroup
 \protected@edef\@tpl@tmp{\CurrentTikzPalette}%
 \UseTikzPalette{#1}#2%
 \UseTikzPalette{\@tpl@tmp}% in case of none
@@ -135,7 +135,7 @@
 }
 
 \newcommand*{\ShowcaseCurrentTikzPalette}{%
-\begingroup%
+\begingroup
 \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccl}%
     \multicolumn{3}{c}{\textbf{Palette: \strut\textit{\CurrentTikzPalette}}}\\
     ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~~~~~~~~~~~~ \\

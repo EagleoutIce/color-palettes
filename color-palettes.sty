@@ -13,7 +13,6 @@
 
 %% Options
 %% -----------------------------------------------------------------------------
-
 \newif\ifcpl@setup@hyperref@
 \DeclareOption{hyperref}{\cpl@setup@hyperref@true}
 \DeclareOption{nohyperref}{\cpl@setup@hyperref@false}
@@ -42,7 +41,7 @@
 \DeclareOption{debug}{\cpl@setup@debug@true}
 \DeclareOption{nodebug}{\cpl@setup@debug@false}
 
-\ProcessOptions*%
+\ProcessOptions*
 
 %% Packages
 %% -----------------------------------------------------------------------------
@@ -51,8 +50,8 @@
 %% Definitions
 %% -----------------------------------------------------------------------------
 
-\ifcpl@setup@debug@\let\cpl@debug\typeout%
-\else\let\cpl@debug\@gobble\fi%
+\ifcpl@setup@debug@\let\cpl@debug\typeout
+\else\let\cpl@debug\@gobble\fi
 
 \def\cpl@none{<None>}
 \edef\cpl@registered@palettes{\cpl@none}
@@ -64,21 +63,21 @@
 % #3-#6 cololrs in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
 \newcommand*{\DefinePalette}[6][grau,gräulichgray: other(lightgray!45!white)]{%
-    \protected@edef\@cpl@tmp{#1}\ifx\@cpl@tmp\@empty\cpl@err@noname@palette\fi%
+    \protected@edef\@cpl@tmp{#1}\ifx\@cpl@tmp\@empty\cpl@err@noname@palette\fi
     \cpl@debug{Def palette '#2'}%
     \expandafter\gdef\csname cpl@palette@#2\endcsname{%
-        \expandafter\cpl@parse@colordata{A}#3\@nil%
-        \expandafter\cpl@parse@colordata{B}#4\@nil%
-        \expandafter\cpl@parse@colordata{C}#5\@nil%
-        \expandafter\cpl@parse@colordata{D}#6\@nil%
-        \expandafter\cpl@parse@colordata*{Gray}#1\@nil%
+        \expandafter\cpl@parse@colordata{A}#3\@nil
+        \expandafter\cpl@parse@colordata{B}#4\@nil
+        \expandafter\cpl@parse@colordata{C}#5\@nil
+        \expandafter\cpl@parse@colordata{D}#6\@nil
+        \expandafter\cpl@parse@colordata*{Gray}#1\@nil
     }%
-    \ifx\cpl@registered@palettes\cpl@none%
+    \ifx\cpl@registered@palettes\cpl@none
         \xdef\cpl@registered@palettes{#2}%
-    \else%
+    \else
         \xdef\cpl@registered@palettes{\cpl@registered@palettes, #2}%
-    \fi%
-}%
+    \fi
+}
 
 \def\cpl@shade@contrast{24}
 \newcommand*{\SetShadeContrast}[1]{\gdef\cpl@shade@contrast{#1}}
@@ -87,14 +86,14 @@
 \def\cpl@parse@colordata{\@ifstar\cpl@parse@colordata@star\cpl@parse@colordata@nostar}
 \def\cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil{%
     \protected@edef\cpl@parse@colordate@tk{#4}%
-    \ifx\cpl@parse@colordate@colorlet\cpl@parse@colordate@tk%
+    \ifx\cpl@parse@colordate@colorlet\cpl@parse@colordate@tk
         \colorlet{palette#1}{#5}%
-    \else\definecolor{palette#1}{#4}{#5}\fi%
+    \else\definecolor{palette#1}{#4}{#5}\fi
     \colorlet{shade#1}{palette#1!\cpl@shade@contrast!white}%
     % no names! they will be dropped if given
 }
 \def\cpl@parse@colordata@nostar#1#2,#3: #4(#5)\@nil{%
-    \cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil%
+    \cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil
     \expandafter\gdef\csname palette#1name\endcsname{#2}%
     \expandafter\gdef\csname palette#1adj\endcsname{#3}%
 }
@@ -110,8 +109,8 @@
 \def\CurrentPalette{}
 
 \def\cpl@undef#1{%
-    \expandafter\gdef\csname #1name\endcsname\@nil%
-    \expandafter\gdef\csname #1adj\endcsname\@nil%
+    \expandafter\gdef\csname #1name\endcsname\@nil
+    \expandafter\gdef\csname #1adj\endcsname\@nil
 }
 % clears all registers
 \def\cpl@clear@palette{%
@@ -121,12 +120,12 @@
 \newif\ifcpl@first@palette@usage@
 \newcommand*{\UsePalette}[1]{%
 \protected@edef\cpl@plt{#1}%
-\ifx\cpl@plt\@empty \cpl@clear@palette\gdef\CurrentPalette{}\else%
+\ifx\cpl@plt\@empty \cpl@clear@palette\gdef\CurrentPalette{}\else
 \cpl@debug{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\csname cpl@palette@#1\endcsname}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
 \newcommand{\WithPalette}[2]{%
-\begingroup%
+\begingroup
 \protected@edef\@cpl@tmp{\CurrentPalette}%
 \UsePalette{#1}#2%
 \UsePalette{\@cpl@tmp}% in case of none
@@ -146,7 +145,7 @@
 }
 
 \newcommand*{\ShowcaseCurrentPalette}{%
-\begingroup%
+\begingroup
     \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
         \multicolumn{4}{c}{\textbf{Palette: \strut\textit{\CurrentPalette}}}\\
         ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~ & Adjective~~~~~~~~~~ \\
@@ -328,10 +327,7 @@
 %% Option-Execution
 %% -----------------------------------------------------------------------------
 
-\def\cpl@hooks{%
-    \cpl@hyper@hook%
-    \cpl@enum@hook%
-}
+\def\cpl@hooks{\cpl@hyper@hook \cpl@enum@hook}
 
 \ifcpl@setup@hyperref@
 \AtBeginDocument{% initial:
@@ -352,10 +348,10 @@
 
 \ifcpl@setup@enumitem@
 \RequirePackage{amssymb}
-\ifcpl@setup@lithieboxes@%
+\ifcpl@setup@lithieboxes@
 \def\cp@color@itemize{%
-    \ifcsname libx@boxid\endcsname%
-    \libx@get{BoxColor}\else paletteA\fi%
+    \ifcsname libx@boxid\endcsname
+    \libx@get{BoxColor}\else paletteA\fi
 }
 \else%
     \def\cp@color@itemize{paletteA}
