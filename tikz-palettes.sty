@@ -128,10 +128,10 @@
 }
 
 \def\tpl@showcase@palette#1{%
-    \strut\emph{tikz#1} & \tikz[baseline=1ex]\draw[tikz#1] (0,0) rectangle ++(1.75,0.45); & \@nameuse{tikz#1name}%
+    \strut\emph{tikz#1} & \tikz[baseline=1ex]\draw[tikz#1] (0,0) rectangle ++(1.75,.45); & \@nameuse{tikz#1name}%
 }
 \def\tpl@showcase@text{%
-    \strut\emph{writ} & \tikz[baseline=2ex]{\draw[tikzA] (0,0) rectangle ++(1.75,0.6);\node[writ] at (0.875,0.3) {Example};} & \@nameuse{writname}%
+    \strut\emph{writ} & \tikz[baseline=2ex]{\draw[tikzA] (0,0) rectangle ++(1.75,.6);\node[writ] at (.875,.3) {Example};} & \@nameuse{writname}%
 }
 
 \newcommand*{\ShowcaseCurrentTikzPalette}{%
@@ -143,7 +143,7 @@
     \tpl@showcase@palette{A} \\ %
     \tpl@showcase@palette{B} \\ %
     \tpl@showcase@palette{C} \\ %
-    \tpl@showcase@palette{D} \\[0.033em] %
+    \tpl@showcase@palette{D} \\[.033em] %
     \tpl@showcase@text{} \\ %
 \end{tabular}%
 \endgroup}
@@ -170,7 +170,7 @@
 {\paletteBname: paletteB,fill=shadeB}
 {\paletteCname: paletteC,fill=shadeC}
 {\paletteDname{} gepunktet: paletteD,fill=shadeD,postaction={pattern={dots},pattern color=paletteD}}
-{Schwarz: text=black,fill=white,fill opacity=0.9}
+{Schwarz: text=black,fill=white,fill opacity=.9}
 
 \DefineTikzPalette{Blueprint}
 {\paletteAname: paletteA}
