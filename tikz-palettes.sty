@@ -35,7 +35,7 @@
 \newif\iftpl@setup@rect@
 \DeclareOption{rect}{\tpl@setup@rect@true}
 \DeclareOption{norect}{\tpl@setup@rect@false}
-\ProcessOptions*%
+\ProcessOptions*
 
 %% Packages
 %% -----------------------------------------------------------------------------
@@ -116,7 +116,7 @@
 \tpl@debug{Using tikz palette '#1'}%
 \@ifundefined{tpl@palette@#1}{\tpl@err@unkown@palette{#1}}{\@nameuse{tpl@palette@#1}}\xdef\CurrentTikzPalette{#1}\fi}
 
-\newcommand*{\WithTikzPalette}[2]{%
+\newcommand*\WithTikzPalette[2]{%
 \begingroup
 \protected@edef\@tpl@tmp{\CurrentTikzPalette}%
 \UseTikzPalette{#1}#2%
@@ -182,9 +182,7 @@
 \iftpl@setup@addons@
 \DefineTikzPalette{MajorMark}
 {\paletteAname{} gestreift: postaction={pattern={north west lines},pattern color=paletteA}}
-{\---: }
-{\---: }
-{\---: }
+{\---: }{\---: }{\---: }
 {Schwarz: text=black,fill=white}
 
 \DefineTikzPalette{BlueprintStripes}
@@ -195,9 +193,7 @@
 {Schwarz: text=black,fill=white}
 
 \DefineTikzPalette{SpecialMark}
-{\---: }
-{\---: }
-{\---: }
+{\---: }{\---: }{\---: }
 {gestreift: postaction={pattern={north west lines},pattern color=black}}
 {Schwarz: text=black}
 
