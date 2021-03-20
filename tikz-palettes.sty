@@ -1,17 +1,13 @@
-%% tikz-palettes.sty
-%%
-%% --------------------------------------------------------------------------
-%%
-%% Autor: Florian Sihler, 23.08.2020
-%%
-%% This package uses color-palettes to offer palettes to be used in tikz
-
+% tikz-palettes.sty
+% Author: Florian Sihler, 23.08.2020
+%
+% This package uses color-palettes to offer palettes to be used in tikz
 % All internal commands are prefixed by 'tpl'
 
 \ProvidesPackage{tikz-palettes}[2020/08/23 v1.2 a style and palette control package based on color-palettes for tikz]
 
-%% Options
-%% -----------------------------------------------------------------------------
+% Options
+% -----------
 \newif\iftpl@setup@hyperref@
 \DeclareOption{hyperref}{\tpl@setup@hyperref@true}
 \DeclareOption{nohyperref}{\tpl@setup@hyperref@false}
@@ -37,11 +33,9 @@
 \DeclareOption{norect}{\tpl@setup@rect@false}
 \ProcessOptions*
 
-%% Packages
-%% -----------------------------------------------------------------------------
-\iftpl@setup@loadpkgs@
-    \RequirePackage{tikz}
-\fi
+% Packages
+% -----------
+\iftpl@setup@loadpkgs@ \RequirePackage{tikz} \fi
 \iftpl@setup@hyperref@\PassOptionsToPackage{hyperref}{color-palettes}\else
 \PassOptionsToPackage{nohyperref}{color-palettes}\fi
 \iftpl@setup@enumitem@\PassOptionsToPackage{enumitem}{color-palettes}\else
@@ -58,9 +52,8 @@
 \RequirePackage{color-palettes}
 \usetikzlibrary{patterns}
 
-%% Definitions
-%% -----------------------------------------------------------------------------
-
+% Definitions
+% -----------
 \iftpl@setup@debug@\let\tpl@debug\typeout
 \else\let\tpl@debug\@gobble\fi
 
@@ -76,7 +69,7 @@
 % #2-#5 tikz-style definitions in the form 'name: style'
 %       example: "blau gestrichelt: postaction={north west lines},fill=paletteA"
 % #6 text-style 'writ'
-\newcommand*{\DefineTikzPalette}[6]{%
+\newcommand*\DefineTikzPalette[6]{%
     \protected@edef\@tpl@tmp{#1}%
     \ifx\@tpl@tmp\@empty\tpl@err@noname@palette\fi
     \tpl@debug{Def tikz palette '#1'}%
@@ -110,7 +103,7 @@
     \tpl@undef{tikzA}\tpl@undef{tikzB}\tpl@undef{tikzC}\tpl@undef{tikzD}%
 }
 
-\newcommand*{\UseTikzPalette}[1]{%
+\newcommand*\UseTikzPalette[1]{%
 \protected@edef\tpl@plt{#1}%
 \ifx\tpl@plt\@empty \tpl@clear@palette\gdef\CurrentTikzPalette{}\else
 \tpl@debug{Using tikz palette '#1'}%
@@ -123,7 +116,7 @@
 \UseTikzPalette{\@tpl@tmp}% in case of none
 \endgroup}
 
-\newcommand*{\ShowcaseTikzPalette}[1]{%
+\newcommand*\ShowcaseTikzPalette[1]{%
     \WithTikzPalette{#1}{\ShowcaseCurrentTikzPalette}%
 }
 
@@ -148,9 +141,8 @@
 \end{tabular}%
 \endgroup}
 
-%% The default palettes
-%% -----------------------------------------------------------------------------
-
+% The default palettes
+% -----------
 \DefineTikzPalette{CleanPlate}
 {\paletteAname: paletteA,fill=shadeA}
 {\paletteBname: paletteB,fill=shadeB}
@@ -211,6 +203,5 @@
 {gesternt: postaction={pattern={fivepointed stars}}}
 {Schwarz: text=black,fill=white}
 \fi
-
 \UseTikzPalette{DeepInk}
 \endinput

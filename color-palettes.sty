@@ -1,18 +1,13 @@
-%% color-palettes.sty
-%%
-%% --------------------------------------------------------------------------
-%%
-%% Autor: Florian Sihler, 22.08.2020
-%%
-%% This package allows to use palettes and handle them in differnt ways.
-%%
-
+% color-palettes.sty
+% Author: Florian Sihler, 22.08.2020
+%
+% This package allows to use palettes and handle them in differnt ways.
 % All internal commands are prefixed by 'cpl'
 
 \ProvidesPackage{color-palettes}[2020/08/22 v1.2 a color and palette control package based on xcolor]
 
-%% Options
-%% -----------------------------------------------------------------------------
+% Options
+% -----------
 \newif\ifcpl@setup@hyperref@
 \DeclareOption{hyperref}{\cpl@setup@hyperref@true}
 \DeclareOption{nohyperref}{\cpl@setup@hyperref@false}
@@ -40,15 +35,14 @@
 \newif\ifcpl@setup@debug@
 \DeclareOption{debug}{\cpl@setup@debug@true}
 \DeclareOption{nodebug}{\cpl@setup@debug@false}
-
 \ProcessOptions*
 
-%% Packages
-%% -----------------------------------------------------------------------------
+% Packages
+% -----------
 \RequirePackage{xcolor}
 
-%% Definitions
-%% -----------------------------------------------------------------------------
+% Definitions
+% -----------
 
 \ifcpl@setup@debug@\let\cpl@debug\typeout
 \else\let\cpl@debug\@gobble\fi
@@ -62,7 +56,7 @@
 % #2 name of palette
 % #3-#6 cololrs in the format 'name,adjective: format(CODE)'
 %       example: "Blau,bläulich: RGB(0,0,255)"
-\newcommand*{\DefinePalette}[6][grau,gräulichgray: other(lightgray!45!white)]{%
+\newcommand*\DefinePalette[6][grau,gräulichgray: other(lightgray!45!white)]{%
     \protected@edef\@cpl@tmp{#1}\ifx\@cpl@tmp\@empty\cpl@err@noname@palette\fi
     \cpl@debug{Def palette '#2'}%
     \expandafter\gdef\csname cpl@palette@#2\endcsname{%
@@ -80,7 +74,7 @@
 }
 
 \def\cpl@shade@contrast{24}
-\newcommand*{\SetShadeContrast}[1]{\gdef\cpl@shade@contrast{#1}}
+\newcommand*\SetShadeContrast[1]{\gdef\cpl@shade@contrast{#1}}
 
 \def\cpl@parse@colordate@colorlet{other}
 \def\cpl@parse@colordata{\@ifstar\cpl@parse@colordata@star\cpl@parse@colordata@nostar}
@@ -118,22 +112,20 @@
 }
 
 \newif\ifcpl@first@palette@usage@
-\newcommand*{\UsePalette}[1]{%
+\newcommand*\UsePalette[1]{%
 \protected@edef\cpl@plt{#1}%
 \ifx\cpl@plt\@empty \cpl@clear@palette\gdef\CurrentPalette{}\else
 \cpl@debug{Using palette '#1'}%
 \@ifundefined{cpl@palette@#1}{\cpl@err@unkown@palette{#1}}{\csname cpl@palette@#1\endcsname}\cpl@hooks\cpl@first@palette@usage@true\xdef\CurrentPalette{#1}\fi}
 
-\newcommand{\WithPalette}[2]{%
+\newcommand\WithPalette[2]{%
 \begingroup
 \protected@edef\@cpl@tmp{\CurrentPalette}%
 \UsePalette{#1}#2%
 \UsePalette{\@cpl@tmp}% in case of none
 \endgroup}
 
-\newcommand*{\ShowcasePalette}[1]{%
-    \WithPalette{#1}{\ShowcaseCurrentPalette}%
-}
+\newcommand*\ShowcasePalette[1]{\WithPalette{#1}{\ShowcaseCurrentPalette}}
 
 \def\cpl@showcase@palette#1{%
     \strut\emph{palette#1} & \colorbox{palette#1}{\phantom{A}~\thinspace}\thinspace\colorbox{shade#1}{\phantom{A}~\thinspace} & \@nameuse{palette#1name} & \@nameuse{palette#1adj}%
@@ -144,9 +136,9 @@
         \colorbox{palette#1}{$\;$\paletteC{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\paletteD{A}$\;$}\thinspace\colorbox{palette#1}{$\;$\textcolor{white}{A}$\;$} %
 }
 
-\newcommand*{\ShowcaseCurrentPalette}{%
+\newcommand*\ShowcaseCurrentPalette{%
 \begingroup
-    \renewcommand{\arraystretch}{1.5}\begin{tabular}{ccll}%
+    \def\arraystretch{1.5}\begin{tabular}{ccll}%
         \multicolumn{4}{c}{\textbf{Palette: \strut\textit{\CurrentPalette}}}\\
         ~Identifier~ & ~~Color~~ & Noun~~~~~~~~~~~ & Adjective~~~~~~~~~~ \\
         \hline
@@ -163,8 +155,8 @@
 \long\def\paletteC#1{\textcolor{paletteC}{#1}}
 \long\def\paletteD#1{\textcolor{paletteD}{#1}}
 
-%% The default palettes
-%% -----------------------------------------------------------------------------
+% The default palettes
+% -----------
 
 \DefinePalette{Water}
 {Dunkelblau,dunkelbläulich: RGB(17, 26, 68)}
@@ -324,16 +316,13 @@
 {Gold,goldfarben: RGB(198, 162, 66)}
 \fi
 
-%% Option-Execution
-%% -----------------------------------------------------------------------------
-
+% Option-Execution
+% -----------
 \def\cpl@hooks{\cpl@hyper@hook \cpl@enum@hook}
 
 \ifcpl@setup@hyperref@
 \AtBeginDocument{% initial:
-    \hypersetup{%
-        pdfborder=0 0 0%
-    }%
+    \hypersetup{pdfborder=0 0 0}%
 }
 \def\cpl@hyper@hook{%
 \ifcpl@first@palette@usage@\hypersetup{allcolors=paletteA}%
@@ -379,8 +368,8 @@
 
 \AtBeginDocument{\cpl@hooks}
 
-%% Defaults
-%% -----------------------------------------------------------------------------
+% Defaults
+% -----------
 \def\cpl@default@palette{GreenWater}
 
 \ifcpl@setup@defaults@
