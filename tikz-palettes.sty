@@ -121,10 +121,10 @@
 }
 
 \def\tpl@showcase@palette#1{%
-    \strut\emph{tikz#1} & \tikz[baseline=1ex]\draw[tikz#1] (0,0) rectangle ++(1.75,.45); & \@nameuse{tikz#1name}%
+    \strut\emph{tikz#1} & \tikz[baseline=1ex]\draw[tikz#1] (0,0) rectangle ++(1.75,.435); & \@nameuse{tikz#1name}%
 }
 \def\tpl@showcase@text{%
-    \strut\emph{writ} & \tikz[baseline=2ex]{\draw[tikzA] (0,0) rectangle ++(1.75,.6);\node[writ] at (.875,.3) {Example};} & \@nameuse{writname}%
+    \strut\emph{writ} & \tikz[baseline=2ex]{\draw[tikzA] (0,0) rectangle ++(1.75,.55);\node[writ] at (.875,.275) {Example};} & \@nameuse{writname}%
 }
 
 \newcommand*{\ShowcaseCurrentTikzPalette}{%
@@ -149,6 +149,14 @@
 {\paletteCname: paletteC,fill=shadeC}
 {\paletteDname: paletteD,fill=shadeD}
 {Schwarz: text=black}
+
+\DefineTikzPalette{CleanShade}
+{\paletteAname: draw=shadeA,fill=shadeA}
+{\paletteBname: draw=shadeB,fill=shadeB}
+{\paletteCname: draw=shadeC,fill=shadeC}
+{\paletteDname: draw=shadeD,fill=shadeD}
+{Schwarz: text=black}
+
 
 \DefineTikzPalette{DeepInk}
 {\paletteAname: paletteA,fill=paletteA}
