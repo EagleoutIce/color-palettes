@@ -1,13 +1,11 @@
 % color-palettes.sty
 % Author: Florian Sihler, 22.08.2020
-%
-% This package allows to use palettes and handle them in differnt ways.
+% This package allows to use palettes and handle them in different ways.
 % All internal commands are prefixed by 'cpl'
 
 \ProvidesPackage{color-palettes}[2020/08/22 v1.2 a color and palette control package based on xcolor]
 
 % Options
-% -----------
 \newif\ifcpl@setup@hyperref@
 \DeclareOption{hyperref}{\cpl@setup@hyperref@true}
 \DeclareOption{nohyperref}{\cpl@setup@hyperref@false}
@@ -38,12 +36,9 @@
 \ProcessOptions*
 
 % Packages
-% -----------
 \RequirePackage{xcolor}
 
 % Definitions
-% -----------
-
 \ifcpl@setup@debug@\let\cpl@debug\typeout
 \else\let\cpl@debug\@gobble\fi
 
@@ -156,8 +151,6 @@
 \long\def\paletteD#1{\textcolor{paletteD}{#1}}
 
 % The default palettes
-% -----------
-
 \DefinePalette{Water}
 {Dunkelblau,dunkelbläulich: RGB(17, 26, 68)}
 {Blau,bläulich: RGB(36, 63, 120)}
@@ -323,7 +316,6 @@
 \fi
 
 % Option-Execution
-% -----------
 \def\cpl@hooks{\cpl@hyper@hook \cpl@enum@hook}
 
 \ifcpl@setup@hyperref@
@@ -375,7 +367,6 @@
 \AtBeginDocument{\cpl@hooks}
 
 % Defaults
-% -----------
 \def\cpl@default@palette{GreenWater}
 
 \ifcpl@setup@defaults@
