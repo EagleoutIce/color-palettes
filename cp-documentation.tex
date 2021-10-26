@@ -1,18 +1,18 @@
-\documentclass{article}
+\documentclass[ngerman]{article}
 \usepackage[a4paper,total={18cm,25.5cm}]{geometry}
-
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
 \usepackage{microtype,hyperref,array,enumitem,longtable,needspace}
 
-\usepackage[main=ngerman,english]{babel}
+\usepackage{babel}
 
 \usepackage[hyperref,enumitem,addons]{color-palettes}
 
 \usepackage{imakeidx}
-\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
+\makeindex[title=Befehlsübersicht,columns=2,columnsep=.75cm]
+\def\indexname{Befehlsübersicht}
 
 
 \UsePalette{IceLake}
@@ -31,10 +31,10 @@
 
 \long\def\imp#1{\emph{\paletteD{#1}}}
 
-\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2?\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2?\cmdref{#2}}\cmdlink{#2}\,#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.35\baselineskip plus 0.15\baselineskip minus 0.05\baselineskip}
+\parindent0pt
+\parskip.35\baselineskip plus .15\baselineskip minus .05\baselineskip
 
 \title{\textsf{\paletteD{\{}\paletteA{color-palettes.sty}\paletteD{\}}}}
 \author{Florian Sihler}
@@ -48,7 +48,6 @@
     Dieses Paket dient der Handhabung von Farbpaletten. Es liefert Makros zur einfachen Definition vierfarbiger Paletten, die sich an die jeweilige Umgebung anpassen und auch
     gewechselt werden können.
 \end{abstract}
-% TODO: Zwilling: tikz-palettes
 
 \tableofcontents
 
@@ -169,7 +168,7 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
 \egroup
 
 \needspace{17\baselineskip}\section{Zusätzliche Paletten}
-\label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[sec:packetoptions]{Paketoption} \texttt{addons} aktiviert:\hbox{}\vfill
+\label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[sec:packetoptions]{Paketoption} \texttt{addons} aktiviert:\null\vfill
 \bgroup
 \footnotesize
 \begin{longtable}{cc}
@@ -185,7 +184,7 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
     \ShowcasePalette{BloodyGrass} &
 \end{longtable}
 \egroup
-\vfill\hbox{}
+\vfill\null
 
 
 \clearpage\appendix
