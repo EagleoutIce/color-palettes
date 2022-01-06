@@ -13,7 +13,6 @@
 \makeindex[title=Befehlsübersicht,columns=2,columnsep=.75cm]
 \def\indexname{Befehlsübersicht}
 
-
 \UsePalette{IceLake}
 
 \def\say#1{\glqq{#1}\grqq{}}
@@ -154,23 +153,21 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
 \clearpage
 \section{Vordefinierte Paletten}
 \label{sec:predefined-palletes}
-\bgroup
-\footnotesize
-    \begin{longtable}{cc}
-        \ShowcasePalette{Water} & \ShowcasePalette{Lucy} \\[6em]
-        \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
-        \ShowcasePalette{Peach} & \ShowcasePalette{LavenderField} \\[6em]
-        \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
-        \ShowcasePalette{NorthernLights} & \ShowcasePalette{Rainbow} \\[6em]
-        \ShowcasePalette{BoringElegance}
-    \end{longtable}
-\egroup
+{\scriptsize
+\begin{longtable}{@{}c@{\hskip-1cm}c@{}}
+    \ShowcasePalette{Water} & \ShowcasePalette{Lucy} \\[6em]
+    \ShowcasePalette{GreenWater} & \ShowcasePalette{Evening} \\[6em]
+    \ShowcasePalette{Peach} & \ShowcasePalette{LavenderField} \\[6em]
+    \ShowcasePalette{IceLake} & \ShowcasePalette{Crimson} \\[6em]
+    \ShowcasePalette{NorthernLights} & \ShowcasePalette{Rainbow} \\[6em]
+    \ShowcasePalette{BoringElegance}
+\end{longtable}
+}
 
 \needspace{17\baselineskip}\section{Zusätzliche Paletten}
 \label{sec:addon-palletes}Diese Paletten werden durch die \hyperref[sec:packetoptions]{Paketoption} \texttt{addons} aktiviert:\null\vfill
-\bgroup
-\footnotesize
-\begin{longtable}{cc}
+{\scriptsize
+\begin{longtable}{@{}c@{\hskip-1cm}c@{}}
     \ShowcasePalette{GraySun} & \ShowcasePalette{UniInfo} \\[6em]
     \ShowcasePalette{UniMawi} & \ShowcasePalette{UniNawi} \\[6em]
     \ShowcasePalette{UniMed} & \ShowcasePalette{Ntts} \\[6em]
@@ -181,8 +178,7 @@ Die \hyperref[sec:packetoptions]{Paketoption} \texttt{lithieboxes} wurde hinzuge
     \ShowcasePalette{Legacy} & \ShowcasePalette{LegacyPrint} \\[6em]
     \ShowcasePalette{SourCandy} & \ShowcasePalette{PurpleSand} \\[6em]
     \ShowcasePalette{BloodyGrass} & \ShowcasePalette{Rainbow}
-\end{longtable}
-\egroup
+\end{longtable}}
 \vfill\null
 
 
