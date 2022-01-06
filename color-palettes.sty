@@ -41,7 +41,7 @@
 % Definitions
 \ifcpl@setup@debug@\let\cpl@debug\typeout
 \else\let\cpl@debug\@gobble\fi
-
+\let\cpl@\expandafter
 \def\cpl@none{<None>}
 \edef\cpl@registered@palettes{\cpl@none}
 
@@ -54,12 +54,12 @@
 \newcommand*\DefinePalette[6][grau,gräulichgray: other(lightgray!45!white)]{%
     \protected@edef\@cpl@tmp{#1}\ifx\@cpl@tmp\@empty\cpl@err@noname@palette\fi
     \cpl@debug{Def palette '#2'}%
-    \expandafter\gdef\csname cpl@palette@#2\endcsname{%
-        \expandafter\cpl@parse@colordata{A}#3\@nil
-        \expandafter\cpl@parse@colordata{B}#4\@nil
-        \expandafter\cpl@parse@colordata{C}#5\@nil
-        \expandafter\cpl@parse@colordata{D}#6\@nil
-        \expandafter\cpl@parse@colordata*{Gray}#1\@nil
+    \cpl@\gdef\csname cpl@palette@#2\endcsname{%
+        \cpl@\cpl@parse@colordata{A}#3\;
+        \cpl@\cpl@parse@colordata{B}#4\;
+        \cpl@\cpl@parse@colordata{C}#5\;
+        \cpl@\cpl@parse@colordata{D}#6\;
+        \cpl@\cpl@parse@colordata*{Gray}#1\;
     }%
     \ifx\cpl@registered@palettes\cpl@none
         \xdef\cpl@registered@palettes{#2}%
@@ -73,7 +73,7 @@
 
 \def\cpl@parse@colordate@colorlet{other}
 \def\cpl@parse@colordata{\@ifstar\cpl@parse@colordata@star\cpl@parse@colordata@nostar}
-\def\cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil{%
+\def\cpl@parse@colordata@star#1#2,#3: #4(#5)\;{%
     \protected@edef\cpl@parse@colordate@tk{#4}%
     \ifx\cpl@parse@colordate@colorlet\cpl@parse@colordate@tk
         \colorlet{palette#1}{#5}%
@@ -81,10 +81,10 @@
     \colorlet{shade#1}{palette#1!\cpl@shade@contrast!white}%
     % no names! they will be dropped if given
 }
-\def\cpl@parse@colordata@nostar#1#2,#3: #4(#5)\@nil{%
-    \cpl@parse@colordata@star#1#2,#3: #4(#5)\@nil
-    \expandafter\gdef\csname palette#1name\endcsname{#2}%
-    \expandafter\gdef\csname palette#1adj\endcsname{#3}%
+\def\cpl@parse@colordata@nostar#1#2,#3: #4(#5)\;{%
+    \cpl@parse@colordata@star#1#2,#3: #4(#5)\;
+    \cpl@\gdef\csname palette#1name\endcsname{#2}%
+    \cpl@\gdef\csname palette#1adj\endcsname{#3}%
 }
 
 \def\cpl@err@noname@palette{\PackageError{color-palettes}{A palette must have a name}
@@ -98,8 +98,8 @@
 \def\CurrentPalette{}
 
 \def\cpl@undef#1{%
-    \expandafter\gdef\csname #1name\endcsname\@nil
-    \expandafter\gdef\csname #1adj\endcsname\@nil
+    \cpl@\gdef\csname #1name\endcsname\;
+    \cpl@\gdef\csname #1adj\endcsname\;
 }
 % clears all registers
 \def\cpl@clear@palette{%
